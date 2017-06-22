@@ -13,12 +13,12 @@ data/doc.kml:
 	unzip data/AllReportsKMZ.aspx -d data/
 
 data/bfro_report_locations.csv: data/doc.kml
-	python bfro_kml/bfro_locations.py \
+	python src/bfro_locations.py \
 		   data/doc.kml \
 		   data/bfro_report_locations.csv
 
 data/bfro_reports.json:
-	cd bfro_scrape;\
+	cd src/bfro_scrape;\
 	scrapy crawl bfro_reports \
 		   --output $(ROOT)/data/bfro_reports.json \
 		   --output-format jsonlines
