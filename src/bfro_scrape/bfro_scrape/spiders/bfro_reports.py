@@ -30,10 +30,11 @@ class BfroReportSpider(scrapy.Spider):
         # Get the report classification.
         report_class = response.css('span.reportclassification::text')\
                               .re(r'\((.*)\)')
+
         # Now we need to get each field. For that we're going to use
         # XPath selectors.
-        keys = [k.replace(":","").replace(" ","_") for k in 
-                response.xpath("//p/span[@class='field']/text()").extract()]
+        raw_keys = response.xpath("//p/span[@class='field']/text()").extract()
+        keys = [k.replace(":","").replace(" ","_") for k in raw_keys]
 
         # Now if scrapy had XPath 2.0 this would be pretty simple. Unfortunately
         # it doesn't so we need to use a mixture of Python and XPath. This
@@ -50,7 +51,7 @@ class BfroReportSpider(scrapy.Spider):
             [" ".join(
                 [s.strip() for s in 
                  response.xpath(value_query.format(k)).extract()])
-             for k in keys]
+             for k in raw_keys]
         
         data = dict(zip(keys, values))
 
