@@ -6,6 +6,9 @@ create_environment:
 requirements:
 	pip install -r requirements.txt
 
+freeze:
+	pip freeze > requirements.txt
+
 data/doc.kml:
 	wget http://www.bfro.net/app/AllReportsKMZ.aspx
 	mv AllReportsKMZ.aspx data/
@@ -23,7 +26,11 @@ data/bfro_reports.json:
 		   --output $(ROOT)/data/bfro_reports.json \
 		   --output-format jsonlines
 
-all: data/bfro_report_locations.csv data/bfro_reports.json
+data/bfro_reports.csv: data/bfro_reports.json data/bfro_report_locations.csv
+	python src/bfro_report_join.py \
+		data/bfro_report_locations.csv \
+		data/bfro_reports.json \
+		data/bfro_reports.csv
 
 clean:
 	rm -rf data/*.aspx
