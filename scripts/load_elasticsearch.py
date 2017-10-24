@@ -52,12 +52,12 @@ bfro_index_body = {
     }
 }
 
-def bfro_bulk_action(doc, doc_id):
+def bfro_bulk_action(doc):
     return {
         "_op_type": "index",
         "_index": bfro_index_name,
         "_type": bfro_report_type_name,
-        "_id": doc_id,
+        "_id": doc["number"],
         "_source": {
             "location": {
                 "lat": float(doc["latitude"]),
@@ -91,8 +91,7 @@ def main(report_file):
     # Zip the reports with the report numbers.
     report_actions = map(
         bfro_bulk_action,
-        reports,
-        pluck('number', reports)
+        reports
     )
 
     for ok,resp in streaming_bulk(client, report_actions):
