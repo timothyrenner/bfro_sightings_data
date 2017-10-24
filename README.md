@@ -76,6 +76,12 @@ The reports are stored as line-delimited JSON objects with the following schema:
 
 Note that not all reports will have all of the fields, and it's possible more fields will be added for future reports.
 
+## Elasticsearch
+
+I like Elasticsearch / Kibana for exploring data.
+There's an optional script in the repo for it in `scripts/`.
+It expects a local Elasticsearch instance running 5.x.
+
 ## Makefile Targets
 
 Here's a reference of all targets in the Makefile.
@@ -84,8 +90,10 @@ Here's a reference of all targets in the Makefile.
 | -------------------------------- | ---------------------------------------------------------------------------- |
 | `create_environment`             | Creates an Anaconda environment named `bfro_sightings_data`.                 |
 | `requirements`                   | Installs the required dependencies.                                          |
+| `freeze`                         | Freezes the environment into `requirements.txt`.                             |
 | `data/doc.kml`                   | Downloads and extracts the KML file from the BFRO website.                   |
 | `data/bfro_report_locations.csv` | Extracts the geocoded sighting reports from `data/doc.kml`.                  |
 | `data/bfro_reports.json`         | Scrapes the full text reports from the BFRO website. Takes about 30 minutes. |
+| `data/bfro_report_join.py`       | Joins the full text reports with the geocoded reports.                       |
 | `all`                            | Executes `data/bfro_report_locations.csv` and `data/bfro_reports.json`.      |
 | `clean`                          | Deletes all data.                                                            |
