@@ -18,7 +18,7 @@ make requirements
 
 # Download the data - takes about a half hour.
 # Downloads geocoded reports and full reports.
-make all
+make data/bfro_reports_geocoded.csv
 ```
 
 ## Geocoded Reports
@@ -76,6 +76,26 @@ The reports are stored as line-delimited JSON objects with the following schema:
 
 Note that not all reports will have all of the fields, and it's possible more fields will be added for future reports.
 
+## Geocoded Joined with Full Reports
+
+This is a combined and cleaned dataset that joins the geocoded reports with information from the full report text.
+It's built by joining the full text reports with the geocoded report titles.
+Not all of the full text reports are geocoded - they have null values for the location.
+This file is much cleaner and easier to work with, but is slightly opinionated.
+
+| column             | description                                                                          |
+| ------------------ | ------------------------------------------------------------------------------------ |
+| `observed`         | The contents of the report.                                                          |
+| `location_details` | A detailed description of the location.                                              |
+| `county`           | The county of the sighting.                                                          |
+| `state`            | The state or province of the sighting.                                               |
+| `title`            | The full title of the report.                                                        |
+| `timestamp`        | The time of the report in [ISO-8601](https://en.wikipedia.org/wiki/ISO_8601) format. |
+| `latitude`         | The latitude of the sighting.                                                        |
+| `longitude`        | The longitude of the sighting.                                                       |
+| `number`           | The report number.                                                                   |
+| `classification`   | The report class (see description in geocoded values).                               |
+
 ## Elasticsearch
 
 I like Elasticsearch / Kibana for exploring data.
@@ -94,6 +114,5 @@ Here's a reference of all targets in the Makefile.
 | `data/doc.kml`                   | Downloads and extracts the KML file from the BFRO website.                   |
 | `data/bfro_report_locations.csv` | Extracts the geocoded sighting reports from `data/doc.kml`.                  |
 | `data/bfro_reports.json`         | Scrapes the full text reports from the BFRO website. Takes about 30 minutes. |
-| `data/bfro_report_join.py`       | Joins the full text reports with the geocoded reports.                       |
-| `all`                            | Executes `data/bfro_report_locations.csv` and `data/bfro_reports.json`.      |
+| `data/bfro_reports_geocoded.csv` | A cleaned and joined version of the report locations and scraped reports.    |
 | `clean`                          | Deletes all data.                                                            |
