@@ -26,11 +26,11 @@ data/bfro_reports.json:
 		   --output $(ROOT)/data/bfro_reports.json \
 		   --output-format jsonlines
 
-data/bfro_reports.csv: data/bfro_reports.json data/bfro_report_locations.csv
+data/bfro_reports_geocoded.csv: data/bfro_reports.json data/bfro_report_locations.csv
 	python src/bfro_report_join.py \
 		data/bfro_report_locations.csv \
 		data/bfro_reports.json \
-		data/bfro_reports.csv
+		data/bfro_reports_geocoded.csv
 
 clean:
 	rm -rf data/*.aspx
