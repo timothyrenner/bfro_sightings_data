@@ -28,7 +28,7 @@ bfro_index_body = {
                 "title": {
                     "type": "text"
                 },
-                "timestamp": {
+                "date": {
                     "type": "date",
                     "ignore_malformed": True
                 },
@@ -46,6 +46,51 @@ bfro_index_body = {
                 },
                 "location": {
                     "type": "geo_point"
+                },
+                "temperature_high": {
+                    "type": "float"
+                },
+                "temperature_low": {
+                    "type": "float"
+                },
+                "dew_point": {
+                    "type": "float"
+                },
+                "humidity": {
+                    "type": "float"
+                },
+                "cloud_cover": {
+                    "type": "float"
+                },
+                "moon_phase": {
+                    "type": "float"
+                },
+                "precip_intensity": {
+                    "type": "float"
+                },
+                "precip_probability": {
+                    "type": "float"
+                },
+                "precip_type": {
+                    "type": "keyword"
+                },
+                "pressure": {
+                    "type": "float"
+                },
+                "summary": {
+                    "type": "text"
+                },
+                "uv_index": {
+                    "type": "integer"
+                },
+                "visibility": {
+                    "type": "float"
+                },
+                "wind_bearing": {
+                    "type": "float"
+                },
+                "wind_speed": {
+                    "type": "float"
                 }
             }
         }

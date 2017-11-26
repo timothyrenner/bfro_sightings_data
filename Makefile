@@ -39,6 +39,12 @@ data/interim/weather_cache.csv: data/interim/bfro_reports_geocoded.csv
 		--cache data/imterim/weather_cache.csv | \
 	slamdring --num-tasks 10 >> data/interim/weather_cache.csv
 
+data/processed/bfro_reports_geocoded.csv: data/interim/bfro_reports_geocoded.csv data/interim/weather_cache.csv
+	python bfro/bfro_weather_join.py \
+		data/interim/bfro_reports_geocoded.csv \
+		data/interim/weather_cache.csv \
+		data/processed/bfro_reports_geocoded.csv
+
 clean:
 	rm -rf data/raw/*.aspx
 	rm -rf data/raw/*.kml

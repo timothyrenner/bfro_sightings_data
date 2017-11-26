@@ -1,11 +1,3 @@
-""" process_bfro_reports.py
-
-    Joins the report locations to the full text reports and performs light 
-    cleaning: removing invalid latitudes and longitudes, removing timestamps
-    that occur in the future, and sets the timestamp granularity to days. Also
-    adds a geohash column for the location for easy geospatial joins.
-"""
-
 import pandas as pd
 import numpy as np
 import click
