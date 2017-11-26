@@ -1,13 +1,14 @@
 ROOT=$(shell pwd)
 
 create_environment:
-	conda-env create --name bfro_sightings_data python=3.5
+	conda env create -f environment.yaml
+	. activate bfro_sightings_data; \
+	pip install -e git+https://github.com/timothyrenner/slamdring#egg=slamdring
 
-requirements:
-	pip install -r requirements.txt
-
-freeze:
-	pip freeze > requirements.txt
+destroy_environment:
+	. activate bfro_sightings_data; pip uninstall slamdring
+	conda remove --name bfro_sightings_data --all
+	rm -rf src/
 
 data/raw/doc.kml:
 	wget http://www.bfro.net/app/AllReportsKMZ.aspx
