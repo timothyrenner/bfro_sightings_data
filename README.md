@@ -84,8 +84,6 @@ It's built by joining the full text reports with the geocoded report titles.
 Not all of the full text reports are geocoded - they have null values for the location.
 This file is much cleaner and easier to work with, but is slightly opinionated.
 
-***TODO*** Add weather when ready.
-
 | column             | description                                                                          |
 | ------------------ | ------------------------------------------------------------------------------------ |
 | `observed`         | The contents of the report.                                                          |
@@ -93,20 +91,45 @@ This file is much cleaner and easier to work with, but is slightly opinionated.
 | `county`           | The county of the sighting.                                                          |
 | `state`            | The state or province of the sighting.                                               |
 | `title`            | The full title of the report.                                                        |
-| `timestamp`        | The time of the report in [ISO-8601](https://en.wikipedia.org/wiki/ISO_8601) format. |
+| `date`             | The date of the report in [ISO-8601](https://en.wikipedia.org/wiki/ISO_8601) format. |
 | `latitude`         | The latitude of the sighting.                                                        |
 | `longitude`        | The longitude of the sighting.                                                       |
 | `number`           | The report number.                                                                   |
 | `classification`   | The report class (see description in geocoded values).                               |
+| `geohash`          | The geohash of the sighting location.                                                |
 
 ## Weather
 
 The weather is built by hitting the [Dark Sky API](https://darksky.net/dev).
 You need an API key to get this dataset, and it does cost money, but not a lot.
-As of this writing it's $1 per 10k requests, and you need about 3.5k, so overall it costs a little over 30 cents.
+As of this writing it's $1 per 10k requests, and you need about 3.5k, so it costs a little over 30 cents.
 The API key needs to be in the environment as `DARK_SKY_KEY`, or it can be in a `.env` file somewhere as well.
 
-***TODO*** This is a work in progress, the weather data needs to actually be integrated with the reports.
+Since the times aren't recorded consistently in the dataset, all weather information is retrieved at the day level.
+The weather data adds the following columns to the "full geocoded reports" table:
+
+| column               | description                                                                                         |
+| -------------------- | --------------------------------------------------------------------------------------------------- |
+| `temperature_high`   | The high temperature.                                                                               |
+| `temperature_mid`    | The midpoint between the high and low temperatures.                                                 |
+| `temperature_low`    | The low temperature.                                                                                |
+| `dew_point`          | The dew point.                                                                                      |
+| `humidity`           | The relative humidity.                                                                              |
+| `cloud_cover`        | The percentage of sky occluded by clouds.                                                           |
+| `moon_phase`         | The fractional part of the lunation number. 0.5 is a full moon because I know what you're thinking. |
+| `precip_intensity`   | The intensity of precipitation in inches per hour.                                                  |
+| `precip_probability` | The probability of precipitation.                                                                   |
+| `precip_type`        | The precipitation type.                                                                             |
+| `pressure`           | The sea-level air pressure.                                                                         |
+| `summary`            | A human readable text summary.                                                                      |
+| `uv_index`           | The UV index.                                                                                       |
+| `visibility`         | The average visibility in miles, capped at 10.                                                      |
+| `wind_bearing`       | The direction the wind is coming from in degrees.                                                   |
+| `wind_speed`         | The speed of the wind in miles per hour.                                                            |
+
+For more information on the weather data, see the [Dark Sky documentation](https://darksky.net/dev/docs#data-point-object).
+
+[<img src="https://darksky.net/dev/img/attribution/poweredby.png" style="height:25%; width:25%">](https://darksky.net/poweredby/)
 
 ## Elasticsearch
 
@@ -118,12 +141,14 @@ It expects a local Elasticsearch instance running 5.x.
 
 Here's a reference of all targets in the Makefile.
 
-| target                                   | description                                                                  |
-| ---------------------------------------- | ---------------------------------------------------------------------------- |
-| `create_environment`                     | Creates an Anaconda environment named `bfro_sightings_data`.                 |
-| `destroy_environment`                    | Destroys the `bfro_sightings_data` environment.                              |
-| `data/raw/doc.kml`                       | Downloads and extracts the KML file from the BFRO website.                   |
-| `data/raw/bfro_report_locations.csv`     | Extracts the geocoded sighting reports from `data/doc.kml`.                  |
-| `data/raw/bfro_reports.json`             | Scrapes the full text reports from the BFRO website. Takes about 30 minutes. |
-| `data/interim/bfro_reports_geocoded.csv` | A cleaned and joined version of the report locations and scraped reports.    |
-| `clean`                                  | Deletes all data.                                                            |
+| target                                     | description                                                                            |
+| ------------------------------------------ | -------------------------------------------------------------------------------------- |
+| `create_environment`                       | Creates an Anaconda environment named `bfro_sightings_data`.                           |
+| `destroy_environment`                      | Destroys the `bfro_sightings_data` environment.                                        |
+| `data/raw/doc.kml`                         | Downloads and extracts the KML file from the BFRO website.                             |
+| `data/raw/bfro_report_locations.csv`       | Extracts the geocoded sighting reports from `data/doc.kml`.                            |
+| `data/raw/bfro_reports.json`               | Scrapes the full text reports from the BFRO website. Takes about 30 minutes.           |
+| `data/interim/bfro_reports_geocoded.csv`   | A cleaned and joined version of the report locations and scraped reports.              |
+| `data/interim/weather_cache.csv`           | A CSV cache of weather data, so subsequent runs don't hit the API unless necessary.    |
+| `data/processed/bfro_reports_geocoded.csv` | The cleaned and joined version of the reports locations with the text _and_ weather.   |
+| `clean`                                    | Deletes all data.                                                                      |
