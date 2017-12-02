@@ -100,7 +100,7 @@ This file is much cleaner and easier to work with, but is slightly opinionated.
 
 ## Weather
 
-The weather is built by hitting the [Dark Sky API](https://darksky.net/dev).
+The weather data is [powered by Dark Sky](https://darksky.net/poweredby/).
 You need an API key to get this dataset, and it does cost money, but not a lot.
 As of this writing it's $1 per 10k requests, and you need about 3.5k, so it costs a little over 30 cents.
 The API key needs to be in the environment as `DARK_SKY_KEY`, or it can be in a `.env` file somewhere as well.
@@ -128,8 +128,6 @@ The weather data adds the following columns to the "full geocoded reports" table
 | `wind_speed`         | The speed of the wind in miles per hour.                                                            |
 
 For more information on the weather data, see the [Dark Sky documentation](https://darksky.net/dev/docs#data-point-object).
-
-<a href="https://darksky.net/poweredby/"><img src="https://darksky.net/dev/img/attribution/poweredby.png" style="height:25%; width:25%"></a>
 
 ## Elasticsearch
 
