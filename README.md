@@ -129,7 +129,7 @@ The weather data adds the following columns to the "full geocoded reports" table
 
 For more information on the weather data, see the [Dark Sky documentation](https://darksky.net/dev/docs#data-point-object).
 
-[<img src="https://darksky.net/dev/img/attribution/poweredby.png" style="height:25%; width:25%">](https://darksky.net/poweredby/)
+<a href="https://darksky.net/poweredby/"><img src="https://darksky.net/dev/img/attribution/poweredby.png" style="height:25%; width:25%"></a>
 
 ## Elasticsearch
 
