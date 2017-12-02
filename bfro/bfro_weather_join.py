@@ -23,6 +23,7 @@ def main(report_file, weather_file, weather_join_file):
 
     fieldnames = report_reader.fieldnames + [
         "temperature_high",
+        "temperature_mid",
         "temperature_low",
         "dew_point",
         "humidity",
@@ -46,8 +47,14 @@ def main(report_file, weather_file, weather_join_file):
 
         weather = get((line["geohash"], line["date"]), weather_cache, {})
 
-        line["temperature_high"] = get("temperatureHigh", weather, None)
-        line["temperature_low"] = get("temperatureLow", weather, None)
+        temperature_high = get("temperatureHigh", weather, None)
+        temperature_low = get("temperatureLow", weather, None)
+        
+        line["temperature_high"] = temperature_high
+        line["temperature_mid"] = (
+            temperature_low + (temperature_high - temperature_low)/2
+        ) if temperature_high and temperature_low else None
+        line["temperature_low"] = temperature_low
         line["dew_point"] = get("dewPoint", weather, None)
         line["humidity"] = get("humidity", weather, None)
         line["cloud_cover"] = get("cloudCover", weather, None)

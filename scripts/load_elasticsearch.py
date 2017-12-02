@@ -50,6 +50,9 @@ bfro_index_body = {
                 "temperature_high": {
                     "type": "float"
                 },
+                "temperature_mid": {
+                    "type": "float"
+                },
                 "temperature_low": {
                     "type": "float"
                 },
