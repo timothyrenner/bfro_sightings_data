@@ -33,16 +33,16 @@ data/interim/bfro_reports_geocoded.csv: data/raw/bfro_reports.json data/raw/bfro
 		data/raw/bfro_reports.json \
 		data/interim/bfro_reports_geocoded.csv
 
-data/interim/weather_cache.csv: data/interim/bfro_reports_geocoded.csv
+data/cache/weather_cache.csv: data/interim/bfro_reports_geocoded.csv
 	python bfro/bfro_report_weather.py \
 		data/interim/bfro_reports_geocoded.csv \
-		--cache data/imterim/weather_cache.csv | \
-	slamdring --num-tasks 10 >> data/interim/weather_cache.csv
+		--cache data/cache/weather_cache.csv | \
+	slamdring --num-tasks 10 >> data/cache/weather_cache.csv
 
-data/processed/bfro_reports_geocoded.csv: data/interim/bfro_reports_geocoded.csv data/interim/weather_cache.csv
+data/processed/bfro_reports_geocoded.csv: data/interim/bfro_reports_geocoded.csv data/cache/weather_cache.csv
 	python bfro/bfro_weather_join.py \
 		data/interim/bfro_reports_geocoded.csv \
-		data/interim/weather_cache.csv \
+		data/cache/weather_cache.csv \
 		data/processed/bfro_reports_geocoded.csv
 
 clean:
