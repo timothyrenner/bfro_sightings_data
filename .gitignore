@@ -4,3 +4,4 @@ data/
 .env
 src/
 .vscode
+visualizations
