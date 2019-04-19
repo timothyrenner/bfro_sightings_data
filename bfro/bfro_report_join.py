@@ -45,7 +45,8 @@ def main(report_locations_file, report_file, report_join_file, precision):
                 'OBSERVED',
                 'LOCATION_DETAILS', 
                 'COUNTY', 
-                'STATE'
+                'STATE',
+                'SEASON'
             ],
             map(json.loads, report_file),
             default=None
@@ -60,7 +61,8 @@ def main(report_locations_file, report_file, report_join_file, precision):
             "observed",
             "location_details",
             "county",
-            "state"
+            "state",
+            "season"
         ]
     )
     reports.loc[:,'number'] = \
