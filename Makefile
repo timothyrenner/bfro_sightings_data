@@ -5,12 +5,12 @@ ROOT=$(shell pwd)
 
 create_environment:
 	conda env create -f environment.yaml
-	. activate bfro_sightings_data; \
+	. activate bfro-sightings-data; \
 	pip install -e git+https://github.com/timothyrenner/slamdring#egg=slamdring
 
 destroy_environment:
 	. activate bfro_sightings_data; pip uninstall slamdring
-	conda remove --name bfro_sightings_data --all
+	conda remove --name bfro-sightings-data --all
 	rm -rf src/
 
 pull_kml:
