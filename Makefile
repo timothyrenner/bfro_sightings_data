@@ -1,4 +1,7 @@
 ROOT=$(shell pwd)
+.PHONY: pull_kml
+.PHONY: pull_reports
+.PHONY: pull_data
 
 create_environment:
 	conda env create -f environment.yaml
@@ -10,18 +13,14 @@ destroy_environment:
 	conda remove --name bfro_sightings_data --all
 	rm -rf src/
 
-data/raw/doc.kml:
+pull_kml:
 	wget http://www.bfro.net/app/AllReportsKMZ.aspx
 	mv AllReportsKMZ.aspx data/raw/
 
 	unzip data/raw/AllReportsKMZ.aspx -d data/raw
 
-data/raw/bfro_report_locations.csv: data/raw/doc.kml
-	python bfro/bfro_locations.py \
-		   data/raw/doc.kml \
-		   data/raw/bfro_report_locations.csv
-
-data/raw/bfro_reports.json:
+pull_reports:
+	touch $(ROOT)/data/raw/bfro_reports.json
 	mv $(ROOT)/data/raw/bfro_reports.json $(ROOT)/data/raw/bfro_reports_orig.json
 	cd bfro/bfro_scrape;\
 	scrapy crawl bfro_reports \
@@ -38,6 +37,13 @@ data/raw/bfro_reports.json:
 	# Move the unioned file to the main file, delete the interim orig file.
 	mv data/raw/bfro_reports_merged.json data/raw/bfro_reports.json
 	rm data/raw/bfro_reports_orig.json
+
+pull_data: pull_kml pull_reports
+
+data/raw/bfro_report_locations.csv: data/raw/doc.kml
+	python bfro/bfro_locations.py \
+		   data/raw/doc.kml \
+		   data/raw/bfro_report_locations.csv
 
 data/interim/bfro_reports_geocoded.csv: data/raw/bfro_reports.json data/raw/bfro_report_locations.csv
 	python bfro/bfro_report_join.py \
