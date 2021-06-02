@@ -1,19 +1,21 @@
-name: bfro_sightings_data
+name: bfro-sightings-data
 channels:
-- defaults
+  - defaults
 dependencies:
-- pip=9.0.1
-- python=3.6.2
-- pip:
-  - click==6.7
-  - elasticsearch==5.4.0
-  - ipython==6.1.0
-  - lxml==3.8.0
-  - numpy==1.13.3
-  - pandas==0.20.3
-  - pygeohash==1.2.0
-  - python-dotenv==0.7.1
-  - scrapy==1.4.0
-  - toolz==0.8.2
+  - pip
+  - python=3.6
+  - pip:
+      - click>=6,<7
+      - elasticsearch>=5,<6
+      - ipython
+      - lxml
+      - numpy
+      - pandas
+      - pygeohash>=1,<2
+      - python-dotenv
+      - scrapy==1.4.0
+      - toolz
+      - black
+      - flake8
+      - loguru
 prefix: /Users/timothyrenner/anaconda/envs/bfro_sightings_data
-
