@@ -11,15 +11,20 @@ To get started quickly, run the following commands:
 ```shell
 # Optional, requires Anaconda python.
 make create_environment
-source activate bfro_sightings_data
+source activate bfro-sightings-data
+# Can also be conda activate.
 
 
 # Download the data - takes about a half hour.
 # Downloads geocoded reports and full reports.
 # This skips the weather since that costs money.
+make pull_data
+
+# Process the data.
 make data/interim/bfro_reports_geocoded.csv
 
 # Add the weather - this step is optional.
+make data/processed/bfro_reports_geocoded.csv
 ```
 
 ## Geocoded Reports
@@ -143,9 +148,10 @@ Here's a reference of all targets in the Makefile.
 | ------------------------------------------ | -------------------------------------------------------------------------------------- |
 | `create_environment`                       | Creates an Anaconda environment named `bfro_sightings_data`.                           |
 | `destroy_environment`                      | Destroys the `bfro_sightings_data` environment.                                        |
-| `data/raw/doc.kml`                         | Downloads and extracts the KML file from the BFRO website.                             |
+| `pull_kml`                                 | Downloads and extracts the KML file from the BFRO website.                             |
+| `pull_reports`                             | Scrapes the full text reports from the BFRO website. Takes about 30 minutes.           |
+| `pull_data`                                | Runs `pull_kml` and `pull_reports`.                                                    |
 | `data/raw/bfro_report_locations.csv`       | Extracts the geocoded sighting reports from `data/doc.kml`.                            |
-| `data/raw/bfro_reports.json`               | Scrapes the full text reports from the BFRO website. Takes about 30 minutes.           |
 | `data/interim/bfro_reports_geocoded.csv`   | A cleaned and joined version of the report locations and scraped reports.              |
 | `data/interim/weather_cache.csv`           | A CSV cache of weather data, so subsequent runs don't hit the API unless necessary.    |
 | `data/processed/bfro_reports_geocoded.csv` | The cleaned and joined version of the reports locations with the text _and_ weather.   |
