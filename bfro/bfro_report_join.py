@@ -5,6 +5,7 @@ import json
 import pygeohash as pgh
 
 from toolz import pluck
+from datetime import datetime
 
 
 @click.command()
@@ -25,8 +26,9 @@ def main(report_locations_file, report_file, report_join_file, precision):
     valid_longitudes = \
         (report_locations.longitude >= -180.0) & \
         (report_locations.longitude <= 180.0)
-    valid_times = \
-        pd.to_datetime(report_locations.timestamp) <= pd.datetime.now()
+
+    report_location_datetimes = pd.to_datetime(report_locations.timestamp)
+    valid_times = report_location_datetimes <= datetime.now().astimezone()
 
     report_locations = report_locations.loc[
         valid_latitudes & valid_longitudes & valid_times, :
