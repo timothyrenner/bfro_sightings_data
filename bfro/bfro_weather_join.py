@@ -4,6 +4,7 @@ import csv
 
 from toolz import get, get_in
 
+
 @click.command()
 @click.argument('report_file', type=click.File('r'))
 @click.argument('weather_file', type=click.File('r'))
