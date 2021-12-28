@@ -9,32 +9,23 @@ This project contains code for downloading and extracting geocoded results, as w
 To get started quickly, run the following commands:
 
 ```shell
-# Optional, requires Anaconda python.
-make create_environment
-source activate bfro-sightings-data
-# Can also be conda activate.
-
-
-# Download the data - takes about a half hour.
-# Downloads geocoded reports and full reports.
-# This skips the weather since that costs money.
-make pull_data
-
-# Process the data.
-make data/interim/bfro_reports_geocoded.csv
-
-# Add the weather - this step is optional.
-make data/processed/bfro_reports_geocoded.csv
+conda env create -f environment.yaml
+conda activate bfro
+dvc repro geocode-reports
 ```
 
+This will get _most_ of the data, but not all of it - it runs all stages prior to the weather pull/merge.
+The weather stuff is problematic because it expects there to be a Dark Sky API key (which unfortunately can no longer be obtained).
+You will get the geocoded reports and json reports though.
 ## Geocoded Reports
 
-The geocoded reports are stored in a publicly available KML file that can be loaded into Google Earth (available directly [here](http://www.bfro.net/news/google_earth.asp), or downloadable through the Makefile).
+The geocoded reports are stored in a publicly available KML file that can be loaded into Google Earth (available directly [here](http://www.bfro.net/news/google_earth.asp), or downloadable through the dvc command).
 This repository has a script for downloading and extracting the geocoded reports from that file.
-To run it, execute the following Makefile target:
+To run it, execute the following dvc targets:
 
 ```shell
-make data/raw/bfro_report_locations.csv
+dvc repro --single-item pull-kml
+dvc repro --single-item extract-locations-from-kml
 ```
 
 This creates a file, `data/raw/bfro_report_locations.csv`, with the following columns:
@@ -139,20 +130,3 @@ For more information on the weather data, see the [Dark Sky documentation](https
 I like Elasticsearch / Kibana for exploring data.
 There's an optional script in the repo for it in `scripts/`.
 It expects a local Elasticsearch instance running 5.x.
-
-## Makefile Targets
-
-Here's a reference of all targets in the Makefile.
-
-| target                                     | description                                                                            |
-| ------------------------------------------ | -------------------------------------------------------------------------------------- |
-| `create_environment`                       | Creates an Anaconda environment named `bfro_sightings_data`.                           |
-| `destroy_environment`                      | Destroys the `bfro_sightings_data` environment.                                        |
-| `pull_kml`                                 | Downloads and extracts the KML file from the BFRO website.                             |
-| `pull_reports`                             | Scrapes the full text reports from the BFRO website. Takes about 30 minutes.           |
-| `pull_data`                                | Runs `pull_kml` and `pull_reports`.                                                    |
-| `data/raw/bfro_report_locations.csv`       | Extracts the geocoded sighting reports from `data/doc.kml`.                            |
-| `data/interim/bfro_reports_geocoded.csv`   | A cleaned and joined version of the report locations and scraped reports.              |
-| `data/interim/weather_cache.csv`           | A CSV cache of weather data, so subsequent runs don't hit the API unless necessary.    |
-| `data/processed/bfro_reports_geocoded.csv` | The cleaned and joined version of the reports locations with the text _and_ weather.   |
-| `clean`                                    | Deletes all data.                                                                      |
