@@ -6,16 +6,16 @@ stages:
     - cp data/raw/bfro_reports.json data/raw/bfro_reports_orig.json
     outs:
     - path: data/raw/bfro_reports_orig.json
-      md5: 0f6cab909de896c4104cf78042a4561f
-      size: 14161439
+      md5: be6b45da5803819f7a05b60bae87465c
+      size: 14283377
   pull-new-reports:
     cmd:
     - cd bfro/bfro_scrape && scrapy crawl bfro_reports --output $(dvc root)/data/raw/bfro_reports_new.json
       --output-format jsonlines
     outs:
     - path: data/raw/bfro_reports_new.json
-      md5: a9f2c9a6315868526f361a6e5d28359d
-      size: 14273468
+      md5: b1f41ab4a7ccbad95a927e546ba82fe5
+      size: 14274462
   merge-reports:
     cmd:
     - python bfro/bfro_union_reports.py data/raw/bfro_reports_orig.json data/raw/bfro_reports_new.json
@@ -25,15 +25,15 @@ stages:
       md5: 2a0fa2b1d4608b9b59c139f0e9a594da
       size: 1132
     - path: data/raw/bfro_reports_new.json
-      md5: a9f2c9a6315868526f361a6e5d28359d
-      size: 14273468
+      md5: b1f41ab4a7ccbad95a927e546ba82fe5
+      size: 14274462
     - path: data/raw/bfro_reports_orig.json
-      md5: 0f6cab909de896c4104cf78042a4561f
-      size: 14161439
-    outs:
-    - path: data/raw/bfro_reports.json
       md5: be6b45da5803819f7a05b60bae87465c
       size: 14283377
+    outs:
+    - path: data/raw/bfro_reports.json
+      md5: db2b21b5a54e8fd9bd42e8dc72930229
+      size: 14284371
   extract-locations-from-kml:
     cmd:
     - python bfro/bfro_locations.py data/raw/doc.kml data/raw/bfro_locations.csv
@@ -60,12 +60,12 @@ stages:
       md5: 755d4516af4df587806d99f2687a1257
       size: 574155
     - path: data/raw/bfro_reports.json
-      md5: be6b45da5803819f7a05b60bae87465c
-      size: 14283377
+      md5: db2b21b5a54e8fd9bd42e8dc72930229
+      size: 14284371
     outs:
     - path: data/interim/bfro_reports_geocoded.csv
-      md5: 6e2f91ba58208e97dcc8fc168d083fce
-      size: 10847135
+      md5: 588fa92928ada1509bea16ba5669f59a
+      size: 10847554
   pull-weather:
     cmd:
     - python bfro/bfro_report_weather.py data/interim/bfro_reports_geocoded.csv data/cache/weather_cache.csv
@@ -74,8 +74,8 @@ stages:
       md5: 5971fdc5a35857beae30ad40f0baebd9
       size: 2259
     - path: data/interim/bfro_reports_geocoded.csv
-      md5: 6e2f91ba58208e97dcc8fc168d083fce
-      size: 10847135
+      md5: 588fa92928ada1509bea16ba5669f59a
+      size: 10847554
     outs:
     - path: data/cache/weather_cache.csv
       md5: 0036cfda1ae876e6f1a8dae5d148b4d2
@@ -92,12 +92,12 @@ stages:
       md5: 0036cfda1ae876e6f1a8dae5d148b4d2
       size: 5012669
     - path: data/interim/bfro_reports_geocoded.csv
-      md5: 6e2f91ba58208e97dcc8fc168d083fce
-      size: 10847135
+      md5: 588fa92928ada1509bea16ba5669f59a
+      size: 10847554
     outs:
     - path: data/processed/bfro_reports_geocoded.csv
-      md5: d34f9ff030e8461dfe4ad5d24fc67dd2
-      size: 11226618
+      md5: 3a14622686996f79c2362f6d3f555f8c
+      size: 11227054
   pull-kml:
     cmd:
     - wget http://www.bfro.net/app/AllReportsKMZ.aspx
