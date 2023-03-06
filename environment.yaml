@@ -5,8 +5,7 @@ dependencies:
   - pip
   - python=3.9
   - pip:
-      - click
-      - elasticsearch>=5,<6
+      - typer 
       - ipython
       - lxml
       - numpy
