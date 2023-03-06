@@ -5,16 +5,4 @@ dependencies:
   - pip
   - python=3.9
   - pip:
-      - typer 
-      - ipython
-      - lxml
-      - numpy
-      - pandas
-      - pygeohash>=1,<2
-      - python-dotenv
-      - scrapy==1.4.0
-      - toolz
-      - black
-      - flake8
-      - loguru
-      - dvc[gs]
+    - pip-tools

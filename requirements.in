@@ -1,0 +1,11 @@
+typer
+lxml
+numpy
+pandas
+pygeohash>=1,<2
+python-dotenv
+scrapy>=1.4.0,<1.5.0
+toolz
+loguru
+dvc[gs]
+duckdb
