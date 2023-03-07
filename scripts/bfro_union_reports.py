@@ -11,7 +11,6 @@ from loguru import logger
 @click.argument("updated_file", type=click.File("r"))
 @click.argument("merged_file", type=click.File("w"))
 def main(orig_file, updated_file, merged_file):
-
     logger.info(f"Loading updated reports from {updated_file.name}.")
     all_reports = list(map(json.loads, updated_file))
     all_report_ids = set(pluck("REPORT_NUMBER", all_reports))
