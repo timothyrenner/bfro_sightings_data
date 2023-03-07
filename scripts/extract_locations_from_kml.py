@@ -5,6 +5,8 @@ from csv import DictWriter
 import typer
 from pathlib import Path
 from loguru import logger
+import polars as pl
+from datetime import date
 
 
 def main(kml_file: Path, geocoded_out: Path):
@@ -96,30 +98,19 @@ def main(kml_file: Path, geocoded_out: Path):
         sys.exit(1)
 
     # Now drop it into a CSV.
-    fieldnames = [
-        "number",
-        "title",
-        "classification",
-        "timestamp",
-        "latitude",
-        "longitude",
-    ]
-
     logger.info(f"Writing results to {geocoded_out.name}.")
-    with open(geocoded_out, "w") as f:
-        writer = DictWriter(f, fieldnames=fieldnames)
-        writer.writeheader()
-        for ii in range(len(report_titles)):
-            writer.writerow(
-                {
-                    "number": report_numbers[ii],
-                    "title": report_titles[ii],
-                    "classification": report_classifications[ii],
-                    "timestamp": report_timestamps[ii],
-                    "latitude": report_latitudes[ii],
-                    "longitude": report_longitudes[ii],
-                }
-            )
+    pl.DataFrame(
+        {
+            "number": report_numbers,
+            "title": report_titles,
+            "classification": report_classifications,
+            "timestamp": report_timestamps,
+            "latitude": report_latitudes,
+            "longitude": report_longitudes,
+        }
+    ).with_columns(pl.lit(date.today()).alias("extraction_date")).write_csv(
+        geocoded_out
+    )
 
 
 if __name__ == "__main__":
