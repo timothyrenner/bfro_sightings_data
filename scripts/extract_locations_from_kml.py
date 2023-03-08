@@ -1,7 +1,6 @@
 from lxml import etree
 import re
 import sys
-from csv import DictWriter
 import typer
 from pathlib import Path
 from loguru import logger
@@ -111,6 +110,7 @@ def main(kml_file: Path, geocoded_out: Path):
     ).with_columns(pl.lit(date.today()).alias("extraction_date")).write_csv(
         geocoded_out
     )
+    logger.info("👣 all done 👣")
 
 
 if __name__ == "__main__":
