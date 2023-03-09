@@ -8,3 +8,5 @@ loguru
 dvc[gs]
 duckdb
 polars
+prefect>=2,<3
+prefect-shell
