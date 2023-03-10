@@ -1,6 +1,6 @@
 from lxml import etree
+from lxml.etree import Element
 import re
-import sys
 import typer
 from pathlib import Path
 from loguru import logger
@@ -8,11 +8,7 @@ import polars as pl
 from datetime import date
 
 
-def main(kml_file: Path, geocoded_out: Path):
-    # Read the data into something that can be parsed.
-    logger.info(f"Reading and parsing {kml_file.name}")
-    report_xml = etree.fromstring(kml_file.read_bytes())
-
+def extract_geocoded_reports(report_xml: Element) -> pl.DataFrame:
     # Grab the relevant info we need.
     logger.info("Extracting report titles.")
     report_titles = [
@@ -27,12 +23,11 @@ def main(kml_file: Path, geocoded_out: Path):
     # Make sure the lengths match.
     logger.info("Validating report classifications and titles.")
     if len(report_titles) != len(report_classifications):
-        print(
+        raise ValueError(
             "ERROR - len(titles): {}, len(classifications): {}".format(
                 len(report_titles), len(report_classifications)
             )
         )
-        sys.exit(1)
 
     logger.info("Extracting report timestamps.")
     report_timestamps = [
@@ -43,12 +38,11 @@ def main(kml_file: Path, geocoded_out: Path):
     # Make sure the lengths match.
     logger.info("Validating report timestamp length.")
     if len(report_titles) != len(report_timestamps):
-        print(
+        raise ValueError(
             "ERROR - len(titles): {}, len(timestamps): {}".format(
                 len(report_titles), len(report_timestamps)
             )
         )
-        sys.exit(1)
 
     logger.info("Extracting report latitudes.")
     report_latitudes = report_xml.xpath(
@@ -58,12 +52,11 @@ def main(kml_file: Path, geocoded_out: Path):
     # Make sure the lengths match.
     logger.info("Validating report latitudes.")
     if len(report_titles) != len(report_latitudes):
-        print(
+        raise ValueError(
             "ERROR - len(titles): {}, len(latitudes): {}".format(
                 len(report_titles), len(report_latitudes)
             )
         )
-        sys.exit(1)
 
     logger.info("Extracting report longitudes.")
     report_longitudes = report_xml.xpath(
@@ -73,12 +66,11 @@ def main(kml_file: Path, geocoded_out: Path):
     # Make sure the lengths match.
     logger.info("Validting report longitudes.")
     if len(report_titles) != len(report_longitudes):
-        print(
+        raise ValueError(
             "ERROR - len(titles): {}, len(longitudes): {}".format(
                 len(report_titles), len(report_longitudes)
             )
         )
-        sys.exit(1)
 
     # Now to extract the report numbers. This will be a join key against the
     # scraped data.
@@ -89,16 +81,14 @@ def main(kml_file: Path, geocoded_out: Path):
 
     logger.info("Validating report numbers.")
     if len(report_titles) != len(report_numbers):
-        print(
+        raise ValueError(
             "ERROR - len(titles): {}, len(numbers): {}".format(
                 len(report_titles), len(report_numbers)
             )
         )
-        sys.exit(1)
 
-    # Now drop it into a CSV.
-    logger.info(f"Writing results to {geocoded_out.name}.")
-    pl.DataFrame(
+    # Now consolidate into a data frame.
+    return pl.DataFrame(
         {
             "number": report_numbers,
             "title": report_titles,
@@ -107,9 +97,21 @@ def main(kml_file: Path, geocoded_out: Path):
             "latitude": report_latitudes,
             "longitude": report_longitudes,
         }
-    ).with_columns(pl.lit(date.today()).alias("extraction_date")).write_csv(
-        geocoded_out
     )
+
+
+def main(kml_file: Path, geocoded_out: Path):
+    # Read the data into something that can be parsed.
+    logger.info(f"Reading and parsing {kml_file.name}")
+    report_xml = etree.fromstring(kml_file.read_bytes())
+
+    geocoded_reports = extract_geocoded_reports(report_xml)
+
+    # Now drop it into a CSV.
+    logger.info(f"Writing results to {geocoded_out.name}.")
+    geocoded_reports.with_columns(
+        pl.lit(date.today()).alias("extraction_date")
+    ).write_csv(geocoded_out)
     logger.info("👣 all done 👣")
 
 
