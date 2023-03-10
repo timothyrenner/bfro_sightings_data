@@ -1,4 +1,5 @@
 from prefect import flow, task, get_run_logger
+from prefect_shell import ShellOperation
 import typer
 from pathlib import Path
 import polars as pl
@@ -6,6 +7,18 @@ from lxml import etree
 from scripts.extract_locations_from_kml import extract_geocoded_reports
 from scripts.combine_geocoded_reports import combine_geocoded_reports
 from datetime import date
+
+
+@task(name="Unzip aspx file")
+def download_and_unzip_aspx_file(aspx_file: Path) -> Path:
+    ShellOperation(
+        commands=[
+            "wget http://www.bfro.net/app/AllReportsKMZ.aspx",
+            f"mv {aspx_file.name} {aspx_file.parent}",
+            f"unzip -o {aspx_file} -d {aspx_file.parent}",
+        ]
+    ).run()
+    return aspx_file.parent / "doc.kml"
 
 
 @task(name="Extract geocoded reports")
@@ -42,12 +55,13 @@ def save_combined_reports(
 
 @flow(name="Update geocoded reports")
 def pull_and_update_geocoded_reports(
-    kml_file: Path = Path("./data_new/raw/geocoder/doc.kml"),
+    aspx_file: Path = Path("./data_new/raw/geocoder/AllReportsKMZ.aspx"),
     orig_report_file: Path = Path(
         "./data_new/raw/geocoder/geocoded_reports_orig.csv"
     ),
     source_report_file: Path = Path("./data_new/sources/geocoded_reports.csv"),
 ) -> pl.DataFrame:
+    kml_file = download_and_unzip_aspx_file(aspx_file)
     new_geocoded_reports = extract_geocoded_reports_task(kml_file)
     combined_geocoded_reports = combine_geocoded_reports_task(
         orig_report_file, new_geocoded_reports
