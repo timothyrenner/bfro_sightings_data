@@ -7,6 +7,6 @@ toolz
 loguru
 dvc[gs]
 duckdb
-polars
+polars[pyarrow]
 prefect>=2,<3
 prefect-shell

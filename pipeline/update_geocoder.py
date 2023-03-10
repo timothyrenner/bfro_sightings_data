@@ -15,7 +15,7 @@ def extract_geocoded_reports_task(kml_file: Path) -> pl.DataFrame:
     report_xml = etree.fromstring(kml_file.read_bytes())
     logger.info(f"Extracting geocoded reports from {kml_file.name}")
     return extract_geocoded_reports(report_xml).with_columns(
-        pl.lot(date.today()).alias("extraction_date")
+        pl.lit(date.today()).alias("extraction_date")
     )
 
 
@@ -42,13 +42,18 @@ def save_combined_reports(
 
 @flow(name="Update geocoded reports")
 def pull_and_update_geocoded_reports(
-    kml_file: Path, orig_report_file: Path
+    kml_file: Path = Path("./data_new/raw/geocoder/doc.kml"),
+    orig_report_file: Path = Path(
+        "./data_new/raw/geocoder/geocoded_reports_orig.csv"
+    ),
+    source_report_file: Path = Path("./data_new/sources/geocoded_reports.csv"),
 ) -> pl.DataFrame:
     new_geocoded_reports = extract_geocoded_reports_task(kml_file)
     combined_geocoded_reports = combine_geocoded_reports_task(
         orig_report_file, new_geocoded_reports
     )
     save_combined_reports(combined_geocoded_reports, orig_report_file)
+    save_combined_reports(combined_geocoded_reports, source_report_file)
     return combined_geocoded_reports
 
 

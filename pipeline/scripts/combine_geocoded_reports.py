@@ -9,11 +9,11 @@ def combine_geocoded_reports(
     orig_reports: pl.DataFrame, new_reports: pl.DataFrame
 ) -> pl.DataFrame:
     return duckdb.sql(
-        f"""
+        """
         WITH all_rows AS (
-            SELECT * FROM {orig_reports}
+            SELECT * FROM orig_reports
             UNION ALL
-            SELECT * FROM {new_reports}
+            SELECT * FROM new_reports
         )
         SELECT * FROM all_rows 
         QUALIFY ROW_NUMBER() OVER(
