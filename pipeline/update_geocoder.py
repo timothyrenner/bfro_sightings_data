@@ -6,7 +6,6 @@ import polars as pl
 from lxml import etree
 from scripts.extract_locations_from_kml import extract_geocoded_reports
 from scripts.combine_geocoded_reports import combine_geocoded_reports
-from datetime import date
 
 
 @task(name="Unzip aspx file")
@@ -27,9 +26,7 @@ def extract_geocoded_reports_task(kml_file: Path) -> pl.DataFrame:
     logger.info(f"Reading and parsing {kml_file.name}")
     report_xml = etree.fromstring(kml_file.read_bytes())
     logger.info(f"Extracting geocoded reports from {kml_file.name}")
-    return extract_geocoded_reports(report_xml).with_columns(
-        pl.lit(date.today()).alias("extraction_date")
-    )
+    return extract_geocoded_reports(report_xml)
 
 
 @task(name="Combine geocoded reports")
@@ -60,15 +57,19 @@ def pull_and_update_geocoded_reports(
         "./data_new/raw/geocoder/geocoded_reports_orig.csv"
     ),
     source_report_file: Path = Path("./data_new/sources/geocoded_reports.csv"),
-) -> pl.DataFrame:
+) -> bool:
     kml_file = download_and_unzip_aspx_file(aspx_file)
     new_geocoded_reports = extract_geocoded_reports_task(kml_file)
-    combined_geocoded_reports = combine_geocoded_reports_task(
-        orig_report_file, new_geocoded_reports
-    )
+    if orig_report_file.exists():
+        combined_geocoded_reports = combine_geocoded_reports_task(
+            orig_report_file, new_geocoded_reports
+        )
+    else:
+        combined_geocoded_reports = new_geocoded_reports
     save_combined_reports(combined_geocoded_reports, orig_report_file)
     save_combined_reports(combined_geocoded_reports, source_report_file)
-    return combined_geocoded_reports
+    # Signals to downstream flows that the source is ready.
+    return True
 
 
 if __name__ == "__main__":

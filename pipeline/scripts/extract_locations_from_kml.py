@@ -6,6 +6,7 @@ from pathlib import Path
 from loguru import logger
 import polars as pl
 from datetime import date
+import h3
 
 
 def extract_geocoded_reports(report_xml: Element) -> pl.DataFrame:
@@ -88,15 +89,41 @@ def extract_geocoded_reports(report_xml: Element) -> pl.DataFrame:
         )
 
     # Now consolidate into a data frame.
-    return pl.DataFrame(
-        {
-            "number": report_numbers,
-            "title": report_titles,
-            "classification": report_classifications,
-            "timestamp": report_timestamps,
-            "latitude": report_latitudes,
-            "longitude": report_longitudes,
-        }
+    return (
+        pl.DataFrame(
+            {
+                "number": report_numbers,
+                "title": report_titles,
+                "classification": report_classifications,
+                "timestamp": report_timestamps,
+                "latitude": report_latitudes,
+                "longitude": report_longitudes,
+            }
+        )
+        .apply(
+            lambda x: (
+                x[0],  # number
+                x[1],  # title
+                x[2],  # classification
+                x[3],  # timestamp
+                float(x[4]),  # latitude
+                float(x[5]),  # longitude
+                h3.geo_to_h3(float(x[4]), float(x[5]), resolution=10),  # hexid
+                f"{date.today():%Y-%m-%d}",  # extraction_date
+            )
+        )
+        .rename(
+            {
+                "column_0": "number",
+                "column_1": "title",
+                "column_2": "classification",
+                "column_3": "timestamp",
+                "column_4": "latitude",
+                "column_5": "longitude",
+                "column_6": "hexid",
+                "column_7": "extraction_date",
+            }
+        )
     )
 
 
@@ -109,9 +136,7 @@ def main(kml_file: Path, geocoded_out: Path):
 
     # Now drop it into a CSV.
     logger.info(f"Writing results to {geocoded_out.name}.")
-    geocoded_reports.with_columns(
-        pl.lit(date.today()).alias("extraction_date")
-    ).write_csv(geocoded_out)
+    geocoded_reports.write_csv(geocoded_out)
     logger.info("👣 all done 👣")
 
 
