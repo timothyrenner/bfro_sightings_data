@@ -1,6 +1,7 @@
 import scrapy
 import re
 
+
 class BfroReportSpider(scrapy.Spider):
     name = "bfro_reports"
 
@@ -8,58 +9,67 @@ class BfroReportSpider(scrapy.Spider):
 
     def parse(self, response):
         # Grab the state report pages from the main GDB page.
-        for s in response.css('table.countytbl td.cs a'):
+        for s in response.css("table.countytbl td.cs a"):
             if s is not None:
                 yield response.follow(s, self.parse_state_page)
 
     def parse_state_page(self, response):
         # This grabs all of the county reports.
-        for c in response.css('table.countytbl td.cs a'):
+        for c in response.css("table.countytbl td.cs a"):
             if c is not None:
                 yield response.follow(c, self.parse_county_page)
 
     def parse_county_page(self, response):
-        for c in response.css('span.reportcaption a'):
+        for c in response.css("span.reportcaption a"):
             if c is not None:
                 yield response.follow(c, self.parse_report)
 
     def parse_report(self, response):
         # Get the report number.
-        report_number = response.css('span.reportheader::text')\
-                                .re(r'Report # (\d+)')
+        report_number = response.css("span.reportheader::text").re(
+            r"Report # (\d+)"
+        )
         # Get the report classification.
-        report_class = response.css('span.reportclassification::text')\
-                              .re(r'\((.*)\)')
+        report_class = response.css("span.reportclassification::text").re(
+            r"\((.*)\)"
+        )
 
         # Now we need to get each field. For that we're going to use
         # XPath selectors.
         raw_keys = response.xpath("//p/span[@class='field']/text()").extract()
-        keys = [k.replace(":","").replace(" ","_") for k in raw_keys]
+        keys = [k.replace(":", "").replace(" ", "_") for k in raw_keys]
 
         # Now if scrapy had XPath 2.0 this would be pretty simple. Unfortunately
         # it doesn't so we need to use a mixture of Python and XPath. This
         # XPath query grabs all "p" elements containing a 'span.field' with
         # text matching the key.
-        value_query = \
+        value_query = (
             "//p[span[@class = 'field' and contains(text(), '{}')]]/text()"
+        )
 
-        # This is almost right: we need to grab text out of a couple of 'a' 
+        # This is almost right: we need to grab text out of a couple of 'a'
         # tags. The " ".join( ... ) business is because some of the value
         # queries return multiple nodes thanks to some <BR> tags. This query
         # joins all of the text matching each field key into a single string.
-        values = \
-            [" ".join(
-                [s.strip() for s in 
-                 response.xpath(value_query.format(k)).extract()])
-             for k in raw_keys]
-        
+        values = [
+            " ".join(
+                [
+                    s.strip()
+                    for s in response.xpath(value_query.format(k)).extract()
+                ]
+            )
+            for k in raw_keys
+        ]
+
         data = dict(zip(keys, values))
 
         # Add the report number and class.
-        data['REPORT_NUMBER'] = \
+        data["REPORT_NUMBER"] = (
             report_number[0] if len(report_number) > 0 else None
-        data['REPORT_CLASS'] = \
+        )
+        data["REPORT_CLASS"] = (
             report_class[0] if len(report_class) > 0 else None
+        )
 
         # The empty keys have their text hiding out in some 'a' tags. This
         # fetches them.
@@ -67,7 +77,9 @@ class BfroReportSpider(scrapy.Spider):
 
         for k in empty_keys:
             data[k] = response.xpath(
-                "//p[span[@class='field' and contains(text(), '{}')]]/a/text()"\
-                .format(k)).extract_first()
-        
+                "//p[span[@class='field' and contains(text(), '{}')]]/a/text()".format(
+                    k
+                )
+            ).extract_first()
+
         yield data
