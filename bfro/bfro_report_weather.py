@@ -79,7 +79,9 @@ def main(report_file, cache, limit):
             finally:
                 total_requests += 1
 
-            writer.writerow((r.geohash, r.date, json.dumps(weather_json)))
+            writer.writerow(
+                (r.geohash, r.date, request_url, json.dumps(weather_json))
+            )
 
 
 if __name__ == "__main__":

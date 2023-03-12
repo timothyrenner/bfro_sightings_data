@@ -71,15 +71,15 @@ stages:
     - python bfro/bfro_report_weather.py data/interim/bfro_reports_geocoded.csv data/cache/weather_cache.csv
     deps:
     - path: bfro/bfro_report_weather.py
-      md5: ee3b9fcf6d8491ed45a5445fd505383a
-      size: 2650
+      md5: d5a1920e6485793500aea3974ab62380
+      size: 2693
     - path: data/interim/bfro_reports_geocoded.csv
       md5: a4177229c9bb856f88a0350f79689478
       size: 10996326
     outs:
     - path: data/cache/weather_cache.csv
-      md5: 212951ae93316358c12c6c2b10f5e8c2
-      size: 5165384
+      md5: a97a7109a81445e510cd4f7ae595cd47
+      size: 1693869
   add-weather:
     cmd:
     - python bfro/bfro_weather_join.py data/interim/bfro_reports_geocoded.csv data/cache/weather_cache.csv
