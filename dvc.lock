@@ -78,8 +78,8 @@ stages:
       size: 10996326
     outs:
     - path: data/cache/weather_cache.csv
-      md5: ffdd716d727120943772cc7780926f46
-      size: 7008575
+      md5: c35b3cf2f3a908aaf1f87818b84e6d91
+      size: 8005374
   add-weather:
     cmd:
     - python bfro/bfro_weather_join.py data/interim/bfro_reports_geocoded.csv data/cache/weather_cache.csv
