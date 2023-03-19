@@ -5,7 +5,7 @@ dependencies:
   - pip
   - python=3.9
   - pip:
-      - click>=6,<7
+      - click
       - elasticsearch>=5,<6
       - ipython
       - lxml
@@ -13,10 +13,9 @@ dependencies:
       - pandas
       - pygeohash>=1,<2
       - python-dotenv
-      - scrapy==1.4.0
+      - scrapy>=2,<3
       - toolz
       - black
       - flake8
       - loguru
       - dvc[gs]
-prefix: /Users/timothyrenner/anaconda/envs/bfro_sightings_data

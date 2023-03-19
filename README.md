@@ -15,8 +15,9 @@ dvc repro geocode-reports
 ```
 
 This will get _most_ of the data, but not all of it - it runs all stages prior to the weather pull/merge.
-The weather stuff is problematic because it expects there to be a Dark Sky API key (which unfortunately can no longer be obtained).
-You will get the geocoded reports and json reports though.
+The weather stuff is problematic because it expects there to be a Visual Crossing API key.
+They are free for up to a thousand calls a day (and we have more calls than that, so you'd need to stagger them to fully hydrate the cache).
+You can get the geocoded reports and json reports without that key.
 ## Geocoded Reports
 
 The geocoded reports are stored in a publicly available KML file that can be loaded into Google Earth (available directly [here](http://www.bfro.net/news/google_earth.asp), or downloadable through the dvc command).
@@ -96,10 +97,10 @@ This file is much cleaner and easier to work with, but is slightly opinionated.
 
 ## Weather
 
-The weather data is [powered by Dark Sky](https://darksky.net/poweredby/).
+The weather data is [powered by Visual Crossing](https://www.visualcrossing.com/resources/blog/how-to-replace-the-dark-sky-api-using-the-visual-crossing-timeline-weather-api/), which is a still operating Dark Sky alternative.
 You need an API key to get this dataset, and it does cost money, but not a lot.
-As of this writing it's $1 per 10k requests, and you need about 3.5k, so it costs a little over 30 cents.
-The API key needs to be in the environment as `DARK_SKY_KEY`, or it can be in a `.env` file somewhere as well.
+As of this writing it's $1 per 10k requests.
+The API key needs to be in the environment as `VISUAL_CROSSING_KEY`, or it can be in a `.env` file somewhere as well.
 
 Since the times aren't recorded consistently in the dataset, all weather information is retrieved at the day level.
 The weather data adds the following columns to the "full geocoded reports" table:
@@ -123,7 +124,7 @@ The weather data adds the following columns to the "full geocoded reports" table
 | `wind_bearing`       | The direction the wind is coming from in degrees.                                                   |
 | `wind_speed`         | The speed of the wind in miles per hour.                                                            |
 
-For more information on the weather data, see the [Dark Sky documentation](https://darksky.net/dev/docs#data-point-object).
+For more information on the weather data, see the [Visual Crossing documentation](https://www.visualcrossing.com/resources/documentation/weather-api/timeline-weather-api/).
 
 ## Elasticsearch
 
