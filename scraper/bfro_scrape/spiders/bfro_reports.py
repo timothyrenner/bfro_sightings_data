@@ -1,6 +1,7 @@
 import scrapy
 
 
+
 class BfroReportSpider(scrapy.Spider):
     name = "bfro_reports"
 
