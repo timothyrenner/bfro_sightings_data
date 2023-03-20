@@ -1,12 +1,20 @@
-.PHONY: install install-dev lint format check
+.PHONY: env dev-env lint format check
+
+## Compile requirements.in into requirements.txt
+deps/requirements.txt: deps/requirements.in
+	pip-compile deps/requirements.in --output-file deps/requirements.txt
+
+## Compile dev-requirements.in into dev-requirements.txt
+deps/dev-requirements.txt: deps/dev-requirements.in deps/requirements.txt
+	pip-compile deps/dev-requirements.in --output-file deps/dev-requirements.txt
 
 ## Install non-dev dependencies.
-install:
-	python -m pip install -r requirements.txt
+env:
+	pip-sync deps/requirements.txt
 
 ## Install dev and non-dev dependencies.
-install-dev:
-	python -m pip install -r dev-requirements.txt
+dev-env:
+	pip-sync deps/dev-requirements.txt
 
 ## Lint project with ruff.
 lint:
