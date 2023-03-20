@@ -18,17 +18,17 @@ dev-env:
 
 ## Lint project with ruff.
 lint:
-	ruff .
+	python -m ruff .
 
 ## Format imports and code.
 format:
-	ruff . --fix
-	black .
+	python -m ruff . --fix
+	python -m black .
 
 ## Check linting and formatting.
 check:
-	ruff check .
-	black --check .
+	python -m ruff check .
+	python -m black --check .
 
 #################################################################################
 # Self Documenting Commands                                                     #
