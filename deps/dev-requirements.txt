@@ -4,6 +4,10 @@
 #
 #    pip-compile --output-file=deps/dev-requirements.txt deps/dev-requirements.in
 #
+agate==1.7.0
+    # via
+    #   -r deps/requirements.txt
+    #   dbt-core
 aiosqlite==0.18.0
     # via
     #   -r deps/requirements.txt
@@ -41,6 +45,14 @@ automat==22.10.0
     # via
     #   -r deps/requirements.txt
     #   twisted
+babel==2.12.1
+    # via
+    #   -r deps/requirements.txt
+    #   agate
+betterproto==1.2.5
+    # via
+    #   -r deps/requirements.txt
+    #   dbt-core
 black==23.1.0
     # via -r deps/dev-requirements.in
 cachetools==5.3.0
@@ -59,6 +71,7 @@ cffi==1.15.1
     # via
     #   -r deps/requirements.txt
     #   cryptography
+    #   dbt-core
 charset-normalizer==3.0.1
     # via
     #   -r deps/requirements.txt
@@ -68,6 +81,7 @@ click==8.1.3
     #   -r deps/requirements.txt
     #   apprise
     #   black
+    #   dbt-core
     #   prefect
     #   typer
     #   uvicorn
@@ -78,6 +92,7 @@ cloudpickle==2.2.1
 colorama==0.4.6
     # via
     #   -r deps/requirements.txt
+    #   dbt-core
     #   griffe
 constantly==15.1.0
     # via
@@ -107,12 +122,24 @@ dateparser==1.1.7
     # via
     #   -r deps/requirements.txt
     #   prefect
+dbt-core==1.4.5
+    # via
+    #   -r deps/requirements.txt
+    #   dbt-duckdb
+dbt-duckdb==1.4.1
+    # via -r deps/requirements.txt
+dbt-extractor==0.4.1
+    # via
+    #   -r deps/requirements.txt
+    #   dbt-core
 docker==6.0.1
     # via
     #   -r deps/requirements.txt
     #   prefect
 duckdb==0.7.1
-    # via -r deps/requirements.txt
+    # via
+    #   -r deps/requirements.txt
+    #   dbt-duckdb
 fastapi==0.95.0
     # via
     #   -r deps/requirements.txt
@@ -125,6 +152,10 @@ fsspec==2023.1.0
     # via
     #   -r deps/requirements.txt
     #   prefect
+future==0.18.3
+    # via
+    #   -r deps/requirements.txt
+    #   parsedatetime
 google-auth==2.16.2
     # via
     #   -r deps/requirements.txt
@@ -137,6 +168,10 @@ griffe==0.25.5
     # via
     #   -r deps/requirements.txt
     #   prefect
+grpclib==0.4.3
+    # via
+    #   -r deps/requirements.txt
+    #   betterproto
 h11==0.14.0
     # via
     #   -r deps/requirements.txt
@@ -145,9 +180,14 @@ h11==0.14.0
 h2==4.1.0
     # via
     #   -r deps/requirements.txt
+    #   grpclib
     #   httpx
 h3==3.7.6
     # via -r deps/requirements.txt
+hologram==0.0.15
+    # via
+    #   -r deps/requirements.txt
+    #   dbt-core
 hpack==4.0.0
     # via
     #   -r deps/requirements.txt
@@ -172,6 +212,7 @@ idna==3.4
     # via
     #   -r deps/requirements.txt
     #   anyio
+    #   dbt-core
     #   hyperlink
     #   requests
     #   rfc3986
@@ -185,6 +226,11 @@ incremental==22.10.0
     # via
     #   -r deps/requirements.txt
     #   twisted
+isodate==0.6.1
+    # via
+    #   -r deps/requirements.txt
+    #   agate
+    #   dbt-core
 itemadapter==0.7.0
     # via
     #   -r deps/requirements.txt
@@ -197,6 +243,7 @@ itemloaders==1.0.6
 jinja2==3.1.2
     # via
     #   -r deps/requirements.txt
+    #   dbt-core
     #   prefect
 jmespath==1.0.1
     # via
@@ -210,14 +257,23 @@ jsonpointer==2.3
     # via
     #   -r deps/requirements.txt
     #   jsonpatch
-jsonschema==4.17.3
+jsonschema==3.2.0
     # via
     #   -r deps/requirements.txt
+    #   hologram
     #   prefect
 kubernetes==26.1.0
     # via
     #   -r deps/requirements.txt
     #   prefect
+leather==0.3.4
+    # via
+    #   -r deps/requirements.txt
+    #   agate
+logbook==1.5.3
+    # via
+    #   -r deps/requirements.txt
+    #   dbt-core
 loguru==0.6.0
     # via -r deps/requirements.txt
 lxml==4.9.2
@@ -242,12 +298,33 @@ markupsafe==2.1.2
     #   -r deps/requirements.txt
     #   jinja2
     #   mako
+    #   werkzeug
+mashumaro[msgpack]==3.3.1
+    # via
+    #   -r deps/requirements.txt
+    #   dbt-core
 mdurl==0.1.2
     # via
     #   -r deps/requirements.txt
     #   markdown-it-py
+minimal-snowplow-tracker==0.0.2
+    # via
+    #   -r deps/requirements.txt
+    #   dbt-core
+msgpack==1.0.5
+    # via
+    #   -r deps/requirements.txt
+    #   mashumaro
+multidict==6.0.4
+    # via
+    #   -r deps/requirements.txt
+    #   grpclib
 mypy-extensions==1.0.0
     # via black
+networkx==2.8.8
+    # via
+    #   -r deps/requirements.txt
+    #   dbt-core
 numpy==1.24.2
     # via
     #   -r deps/requirements.txt
@@ -264,19 +341,25 @@ packaging==23.0
     # via
     #   -r deps/requirements.txt
     #   black
+    #   dbt-core
     #   docker
     #   parsel
     #   prefect
     #   scrapy
+parsedatetime==2.4
+    # via
+    #   -r deps/requirements.txt
+    #   agate
 parsel==1.7.0
     # via
     #   -r deps/requirements.txt
     #   itemloaders
     #   scrapy
-pathspec==0.11.0
+pathspec==0.10.3
     # via
     #   -r deps/requirements.txt
     #   black
+    #   dbt-core
     #   prefect
 pendulum==2.1.2
     # via
@@ -343,6 +426,7 @@ python-dateutil==2.8.2
     #   -r deps/requirements.txt
     #   croniter
     #   dateparser
+    #   hologram
     #   kubernetes
     #   pendulum
 python-dotenv==1.0.0
@@ -350,11 +434,17 @@ python-dotenv==1.0.0
 python-slugify==8.0.1
     # via
     #   -r deps/requirements.txt
+    #   agate
     #   prefect
+pytimeparse==1.1.8
+    # via
+    #   -r deps/requirements.txt
+    #   agate
 pytz==2022.7.1
     # via
     #   -r deps/requirements.txt
     #   dateparser
+    #   dbt-core
     #   prefect
 pytz-deprecation-shim==0.1.0.post0
     # via
@@ -368,6 +458,7 @@ pyyaml==6.0
     # via
     #   -r deps/requirements.txt
     #   apprise
+    #   dbt-core
     #   kubernetes
     #   prefect
 queuelib==1.6.2
@@ -386,8 +477,10 @@ requests==2.28.2
     # via
     #   -r deps/requirements.txt
     #   apprise
+    #   dbt-core
     #   docker
     #   kubernetes
+    #   minimal-snowplow-tracker
     #   requests-file
     #   requests-oauthlib
     #   tldextract
@@ -425,7 +518,11 @@ six==1.16.0
     #   -r deps/requirements.txt
     #   automat
     #   google-auth
+    #   isodate
+    #   jsonschema
     #   kubernetes
+    #   leather
+    #   minimal-snowplow-tracker
     #   protego
     #   python-dateutil
     #   requests-file
@@ -442,10 +539,18 @@ sqlalchemy[asyncio]==1.4.47
     #   -r deps/requirements.txt
     #   alembic
     #   prefect
+sqlparse==0.4.3
+    # via
+    #   -r deps/requirements.txt
+    #   dbt-core
 starlette==0.26.1
     # via
     #   -r deps/requirements.txt
     #   fastapi
+stringcase==1.2.0
+    # via
+    #   -r deps/requirements.txt
+    #   betterproto
 text-unidecode==1.3
     # via
     #   -r deps/requirements.txt
@@ -475,6 +580,8 @@ typing-extensions==4.5.0
     #   -r deps/requirements.txt
     #   alembic
     #   black
+    #   dbt-core
+    #   mashumaro
     #   polars
     #   prefect
     #   pydantic
@@ -513,6 +620,10 @@ websockets==10.4
     # via
     #   -r deps/requirements.txt
     #   prefect
+werkzeug==2.2.3
+    # via
+    #   -r deps/requirements.txt
+    #   dbt-core
 zipp==3.15.0
     # via
     #   -r deps/requirements.txt

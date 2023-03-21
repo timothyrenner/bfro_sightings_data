@@ -16,3 +16,4 @@ polars[pyarrow]
 prefect>=2,<3
 prefect-shell
 h3<4.0
+dbt-duckdb

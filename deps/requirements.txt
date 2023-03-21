@@ -4,6 +4,8 @@
 #
 #    pip-compile --output-file=deps/requirements.txt deps/requirements.in
 #
+agate==1.7.0
+    # via dbt-core
 aiosqlite==0.18.0
     # via prefect
 alembic==1.10.2
@@ -27,6 +29,10 @@ attrs==22.2.0
     #   twisted
 automat==22.10.0
     # via twisted
+babel==2.12.1
+    # via agate
+betterproto==1.2.5
+    # via dbt-core
 cachetools==5.3.0
     # via google-auth
 certifi==2022.12.7
@@ -37,19 +43,24 @@ certifi==2022.12.7
     #   kubernetes
     #   requests
 cffi==1.15.1
-    # via cryptography
+    # via
+    #   cryptography
+    #   dbt-core
 charset-normalizer==3.0.1
     # via requests
 click==8.1.3
     # via
     #   apprise
+    #   dbt-core
     #   prefect
     #   typer
     #   uvicorn
 cloudpickle==2.2.1
     # via prefect
 colorama==0.4.6
-    # via griffe
+    # via
+    #   dbt-core
+    #   griffe
 constantly==15.1.0
     # via twisted
 coolname==2.2.0
@@ -68,30 +79,46 @@ cssselect==1.2.0
     #   scrapy
 dateparser==1.1.7
     # via prefect
+dbt-core==1.4.5
+    # via dbt-duckdb
+dbt-duckdb==1.4.1
+    # via -r deps/requirements.in
+dbt-extractor==0.4.1
+    # via dbt-core
 docker==6.0.1
     # via prefect
 duckdb==0.7.1
-    # via -r deps/requirements.in
+    # via
+    #   -r deps/requirements.in
+    #   dbt-duckdb
 fastapi==0.95.0
     # via prefect
 filelock==3.9.0
     # via tldextract
 fsspec==2023.1.0
     # via prefect
+future==0.18.3
+    # via parsedatetime
 google-auth==2.16.2
     # via kubernetes
 greenlet==2.0.2
     # via sqlalchemy
 griffe==0.25.5
     # via prefect
+grpclib==0.4.3
+    # via betterproto
 h11==0.14.0
     # via
     #   httpcore
     #   uvicorn
 h2==4.1.0
-    # via httpx
+    # via
+    #   grpclib
+    #   httpx
 h3==3.7.6
     # via -r deps/requirements.in
+hologram==0.0.15
+    # via dbt-core
 hpack==4.0.0
     # via h2
 httpcore==0.16.3
@@ -105,6 +132,7 @@ hyperlink==21.0.0
 idna==3.4
     # via
     #   anyio
+    #   dbt-core
     #   hyperlink
     #   requests
     #   rfc3986
@@ -115,6 +143,10 @@ importlib-metadata==6.1.0
     #   prefect
 incremental==22.10.0
     # via twisted
+isodate==0.6.1
+    # via
+    #   agate
+    #   dbt-core
 itemadapter==0.7.0
     # via
     #   itemloaders
@@ -122,17 +154,25 @@ itemadapter==0.7.0
 itemloaders==1.0.6
     # via scrapy
 jinja2==3.1.2
-    # via prefect
+    # via
+    #   dbt-core
+    #   prefect
 jmespath==1.0.1
     # via itemloaders
 jsonpatch==1.32
     # via prefect
 jsonpointer==2.3
     # via jsonpatch
-jsonschema==4.17.3
-    # via prefect
+jsonschema==3.2.0
+    # via
+    #   hologram
+    #   prefect
 kubernetes==26.1.0
     # via prefect
+leather==0.3.4
+    # via agate
+logbook==1.5.3
+    # via dbt-core
 loguru==0.6.0
     # via -r deps/requirements.in
 lxml==4.9.2
@@ -150,8 +190,19 @@ markupsafe==2.1.2
     # via
     #   jinja2
     #   mako
+    #   werkzeug
+mashumaro[msgpack]==3.3.1
+    # via dbt-core
 mdurl==0.1.2
     # via markdown-it-py
+minimal-snowplow-tracker==0.0.2
+    # via dbt-core
+msgpack==1.0.5
+    # via mashumaro
+multidict==6.0.4
+    # via grpclib
+networkx==2.8.8
+    # via dbt-core
 numpy==1.24.2
     # via pyarrow
 oauthlib==3.2.2
@@ -160,16 +211,21 @@ orjson==3.8.7
     # via prefect
 packaging==23.0
     # via
+    #   dbt-core
     #   docker
     #   parsel
     #   prefect
     #   scrapy
+parsedatetime==2.4
+    # via agate
 parsel==1.7.0
     # via
     #   itemloaders
     #   scrapy
-pathspec==0.11.0
-    # via prefect
+pathspec==0.10.3
+    # via
+    #   dbt-core
+    #   prefect
 pendulum==2.1.2
     # via prefect
 polars[pyarrow]==0.16.11
@@ -213,15 +269,21 @@ python-dateutil==2.8.2
     # via
     #   croniter
     #   dateparser
+    #   hologram
     #   kubernetes
     #   pendulum
 python-dotenv==1.0.0
     # via -r deps/requirements.in
 python-slugify==8.0.1
-    # via prefect
+    # via
+    #   agate
+    #   prefect
+pytimeparse==1.1.8
+    # via agate
 pytz==2022.7.1
     # via
     #   dateparser
+    #   dbt-core
     #   prefect
 pytz-deprecation-shim==0.1.0.post0
     # via tzlocal
@@ -230,6 +292,7 @@ pytzdata==2020.1
 pyyaml==6.0
     # via
     #   apprise
+    #   dbt-core
     #   kubernetes
     #   prefect
 queuelib==1.6.2
@@ -241,8 +304,10 @@ regex==2022.10.31
 requests==2.28.2
     # via
     #   apprise
+    #   dbt-core
     #   docker
     #   kubernetes
+    #   minimal-snowplow-tracker
     #   requests-file
     #   requests-oauthlib
     #   tldextract
@@ -266,7 +331,11 @@ six==1.16.0
     # via
     #   automat
     #   google-auth
+    #   isodate
+    #   jsonschema
     #   kubernetes
+    #   leather
+    #   minimal-snowplow-tracker
     #   protego
     #   python-dateutil
     #   requests-file
@@ -281,8 +350,12 @@ sqlalchemy[asyncio]==1.4.47
     # via
     #   alembic
     #   prefect
+sqlparse==0.4.3
+    # via dbt-core
 starlette==0.26.1
     # via fastapi
+stringcase==1.2.0
+    # via betterproto
 text-unidecode==1.3
     # via python-slugify
 tldextract==3.4.0
@@ -300,6 +373,8 @@ typer==0.7.0
 typing-extensions==4.5.0
     # via
     #   alembic
+    #   dbt-core
+    #   mashumaro
     #   polars
     #   prefect
     #   pydantic
@@ -327,6 +402,8 @@ websocket-client==1.5.1
     #   kubernetes
 websockets==10.4
     # via prefect
+werkzeug==2.2.3
+    # via dbt-core
 zipp==3.15.0
     # via importlib-metadata
 zope-interface==5.5.2
