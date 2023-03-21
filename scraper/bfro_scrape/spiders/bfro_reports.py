@@ -77,11 +77,6 @@ class BfroReportSpider(scrapy.Spider):
             report_class[0] if len(report_class) > 0 else None
         )
 
-        # Add the datetime of the extraction.
-        data["PULLED_DATETIME"] = datetime.today().isoformat(
-            timespec="seconds"
-        )
-
         # The empty keys have their text hiding out in some 'a' tags. This
         # fetches them.
         empty_keys = [k for k in keys if len(data[k]) == 0]
@@ -93,4 +88,12 @@ class BfroReportSpider(scrapy.Spider):
                 )
             ).extract_first()
 
-        yield data
+        # If everything is None, we don't want to write the values out,
+        # it just means a bad scrape.
+        if data and any(data.values()):
+            # Add the datetime of the extraction.
+            data["PULLED_DATETIME"] = datetime.today().isoformat(
+                timespec="seconds"
+            )
+
+            yield data

@@ -22,13 +22,15 @@ def run_scraper_task(reports_new_file: Path, test_run: bool = False) -> bool:
         ).trigger()
 
         scraper.wait_for_completion()
-        logger.info(f"Scraper completed. Saved to {reports_new_file}.")
+        logger.info(
+            f"Scraper completed. Saved to {scraper_working_dir}/new_reports.csv"
+        )
 
         ShellOperation(
             commands=[
                 f"cp {scraper_working_dir}/new_reports.csv {reports_new_file}"
             ]
-        )
+        ).run()
         return True
     except Exception:
         logger.exception("Error running scraper.")
