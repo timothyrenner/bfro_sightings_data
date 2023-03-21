@@ -54,7 +54,7 @@ def save_combined_reports(
 def pull_and_update_geocoded_reports(
     aspx_file: Path = Path("./data_new/raw/geocoder/AllReportsKMZ.aspx"),
     orig_report_file: Path = Path(
-        "./data_new/raw/geocoder/geocoded_reports_orig.csv"
+        "./data_new/raw/geocoder/geocoded_reports.csv"
     ),
     source_report_file: Path = Path("./data_new/sources/geocoded_reports.csv"),
 ) -> bool:

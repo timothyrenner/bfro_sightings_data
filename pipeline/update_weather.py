@@ -40,7 +40,7 @@ def merge_weather_data(
 def update_weather(
     weather_cache_file: Path = Path("data_new/raw/weather/weather_cache.csv"),
     geocoded_reports_file: Path = Path(
-        "data_new/raw/geocoder/geocoded_reports_orig.csv"
+        "data_new/raw/geocoder/geocoded_reports.csv"
     ),
     source_weather_file: Path = Path("data_new/sources/weather_cache.csv"),
     limit: int = 900,

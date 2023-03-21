@@ -1,5 +1,5 @@
 import scrapy
-
+from datetime import datetime
 
 
 class BfroReportSpider(scrapy.Spider):
@@ -9,13 +9,19 @@ class BfroReportSpider(scrapy.Spider):
 
     def parse(self, response):
         # Grab the state report pages from the main GDB page.
-        for s in response.css("table.countytbl td.cs a"):
+        state_pages = response.css("table.countytbl td.cs a")
+        if self.test_run.lower() == "true":
+            state_pages = state_pages[:1]
+        for s in state_pages:
             if s is not None:
                 yield response.follow(s, self.parse_state_page)
 
     def parse_state_page(self, response):
         # This grabs all of the county reports.
-        for c in response.css("table.countytbl td.cs a"):
+        county_pages = response.css("table.countytbl td.cs a")
+        if self.test_run.lower() == "true":
+            county_pages = county_pages[1:]
+        for c in county_pages:
             if c is not None:
                 yield response.follow(c, self.parse_county_page)
 
@@ -69,6 +75,11 @@ class BfroReportSpider(scrapy.Spider):
         )
         data["REPORT_CLASS"] = (
             report_class[0] if len(report_class) > 0 else None
+        )
+
+        # Add the datetime of the extraction.
+        data["PULLED_DATETIME"] = datetime.today().isoformat(
+            timespec="seconds"
         )
 
         # The empty keys have their text hiding out in some 'a' tags. This
