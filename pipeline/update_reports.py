@@ -16,19 +16,20 @@ def run_scraper_task(reports_new_file: Path, test_run: bool = False) -> bool:
             commands=[
                 "scrapy crawl bfro_reports "
                 f"-a test_run={test_run} "
-                f"--overwrite-output new_reports.csv:csv"
+                f"--overwrite-output new_reports.json:jsonlines"
             ],
             working_dir=scraper_working_dir,
         ).trigger()
 
         scraper.wait_for_completion()
         logger.info(
-            f"Scraper completed. Saved to {scraper_working_dir}/new_reports.csv"
+            "Scraper completed. "
+            f"Saved to {scraper_working_dir}/new_reports.json"
         )
 
         ShellOperation(
             commands=[
-                f"cp {scraper_working_dir}/new_reports.csv {reports_new_file}"
+                f"cp {scraper_working_dir}/new_reports.json {reports_new_file}"
             ]
         ).run()
         return True
@@ -63,7 +64,9 @@ def combine_reports_task(
 @flow(name="Update reports")
 def update_reports(
     reports_orig_file: Path = Path("data_new/raw/reports/bfro_reports.csv"),
-    reports_new_file: Path = Path("data_new/raw/reports/bfro_reports_new.csv"),
+    reports_new_file: Path = Path(
+        "data_new/raw/reports/bfro_reports_new.json"
+    ),
     reports_source_file: Path = Path("data_new/sources/bfro_reports.csv"),
     test_run: bool = False,
 ) -> bool:
