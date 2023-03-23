@@ -5,7 +5,6 @@ sources:
     description: >
       Local file sources, extracted from the site, KML file, and weather API.
     meta:
-      # TODO: extract this to an env var.
       external_location: "~/bfro_sightings_data/data_new/sources/{name}.csv"
     tables:
       - name: bfro_reports
@@ -75,4 +74,34 @@ sources:
             tests:
               - not_null
       - name: weather_cache
+        description: >
+          Cache for the weather data, scoped to h3 hexid and date. Weather data
+          is pulled from Visual Crossing's API.
+        tests:
+          - dbt_utils.unique_combination_of_columns:
+              combination_of_columns:
+                - hexid
+                - timestamp
+        columns:
+          - name: hexid
+            description: The H3 hexid of the location, hashed to resolution 10.
+            tests:
+              - not_null
+          - name: timestamp
+            description: >
+              The timestamp of the sighting, resolved to a day. So basically
+              the day the sighting took place.
+            tests:
+              - not_null
+          - name: date_pulled
+            description: The date the data was pulled.
+            tests:
+              - not_null
+          - name: data
+            description: >
+              The exact raw JSON data (as a string) returned by the Visual
+              Crossing API for that location, timestamp. Can be null, indicating
+              the API call failed. Those are saved so they are not retried on
+              subsequent runs. API call failures usually mean there is no data
+              available for that date/time.
       - name: geocoded_reports 
