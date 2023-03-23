@@ -105,3 +105,50 @@ sources:
               subsequent runs. API call failures usually mean there is no data
               available for that date/time.
       - name: geocoded_reports 
+        description: >
+          Extracted reports from the source KML file that powers the sighting
+          map, flattened and enhanced with hexids and pull dates, otherwise
+          unchanged.
+        columns:
+          - name: number
+            description: >
+              Primary key for identifying the reports. Note not all reports in
+              this file have a corresponding scraped report.
+            tests:
+              - unique
+              - not_null
+          - name: title
+            description: The title for the report as it appears in the kml file.
+            tests:
+              - not_null
+              - unique
+          - name: classification
+            description: >
+              The report classification. Either "Class A" - direct sighting,
+              "Class B" - indirect evidence (footprints, scat, etc), or 
+              "Class C" - rumors and stories.
+            tests:
+              - not_null
+              - accepted_values:
+                  values: ['Class A', 'Class B', 'Class C']
+          - name: timestamp
+            description: >
+              The timestamp of the sighting, set to noon the day of.
+            tests:
+              - not_null
+          - name: latitude
+            description: The latitude of the sighting.
+            tests:
+              - not_null
+          - name: longitude
+            description: The longitude of the sighting.
+            tests:
+              - not_null
+          - name: hexid
+            description: >
+              The H3 hexagon id at resolution 10 of the location of the
+              sighting.
+            tests:
+              - not_null
+          - name: extraction_date
+            description: The date the data was extracted from the KML file.
