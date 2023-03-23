@@ -1,0 +1,6 @@
+bfro_mini_warehouse:
+  target: transient
+  outputs:
+    transient:
+      type: duckdb
+      path: ":memory:"
