@@ -72,29 +72,29 @@ def pull_missing_weather(
         weather_request = create_weather_request(
             latitude, longitude, row["timestamp"]
         )
-        try:
-            logger.info(f"Making weather request: {weather_request}")
-            weather_response = requests.get(
-                weather_request,
-                params={"key": VISUAL_CROSSING_KEY, "include": "days"},
-            ).text
+        logger.info(f"Making weather request: {weather_request}")
+        response = requests.get(
+            weather_request,
+            params={"key": VISUAL_CROSSING_KEY, "include": "days"},
+        )
+        if response.ok:
+            weather_response = response.text
             logger.info("Weather request successful.")
-        except Exception:
-            logger.exception(
+        else:
+            logger.warning(
                 f"Encountered error with request {weather_request}."
             )
             # Set the weather data to None here so we don't just pile up bad
             # pulls from run to run.
             weather_response = None
-        finally:
-            total_calls += 1
-            weather_data.append(
-                {
-                    **row,
-                    "date_pulled": f"{date.today():%Y-%m-%d}",
-                    "data": weather_response,
-                }
-            )
+        total_calls += 1
+        weather_data.append(
+            {
+                **row,
+                "date_pulled": f"{date.today():%Y-%m-%d}",
+                "data": weather_response,
+            }
+        )
         if total_calls > limit:
             logger.info("Call limit reached. Terminating.")
             break
