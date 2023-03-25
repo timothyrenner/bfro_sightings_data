@@ -24,6 +24,11 @@ clean-targets:         # directories to be removed by `dbt clean`
   - "target"
   - "dbt_packages"
 
+# Since we are in memory, "tables" are really file views.
+# this initializes them.
+# See https://github.com/jwills/dbt-duckdb#re-running-external-models-with-an-in-memory-version-of-dbt-duckdb
+on-run-start:
+  - "{{ register_upstream_external_models() }}"
 
 # Configuring models
 # Full documentation: https://docs.getdbt.com/docs/configuring-models
