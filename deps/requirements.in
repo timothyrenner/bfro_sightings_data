@@ -5,6 +5,7 @@ python-dotenv
 scrapy>=2,<3
 toolz
 loguru
+ydata-profiling
 
 # Leaving dvc out for now. The issue is a dependency of dvc[gs] (specifically
 # fsspec/gcsfs requires fsspec==2023.3.0. Prefect explicitly ignores this
