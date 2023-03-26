@@ -8,11 +8,14 @@
 
 
 SELECT
-    reports.observed,
-    reports.location_details,
-    reports.county,
-    reports.state,
-    reports.season,
+    -- Re-alias these columns to represent them as lower case in the CSV file.
+    -- SQL sees them as lower cased anyway but should be that way in the final
+    -- file as well.
+    reports.observed AS observed,
+    reports.location_details AS location_details,
+    reports.county AS county,
+    reports.state AS state,
+    reports.season AS season,
     geo.title,
     geo.latitude,
     geo.longitude,
