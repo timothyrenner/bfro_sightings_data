@@ -1,0 +1,78 @@
+version: 2
+
+models:
+  - name: bfro_reports_geocoded
+    description: >
+      The complete geocoded reports of bigfoot sightings with weather data,
+      location data, and full report contents.
+    columns:
+      - name: observed
+        description: The sighting description itself.
+      - name: location_details
+        description: Additional details about the location of the sighting.
+      - name: county
+        description: The county in which the sighting occurred.
+      - name: state
+        description: The name of the state in which the sighting occurred.
+      - name: season
+        description: The season the sighting took place.
+      - name: title
+        description: The title for the report as it appears in the kml file.
+      - name: latitude
+        description: The latitude of the sighting.
+      - name: longitude
+        description: The longitude of the sighting.
+      - name: date
+        description: >
+          The date the sighting occurred, with a priority placed on the scraped
+          report date over the KML-sourced report date when available.
+      - name: number
+        description: The report number. Unique primary key for the dataset.
+        tests:
+          - not_null
+          - unique
+      - name: classification
+        description: >
+          The report classification, with an priority placed on the scraped
+          report classification over the KML-sourced report classification when
+          available.
+      - name: hexid
+        description: The H3 hexid of the sighting location at resolution 10.
+      - name: temperature_high
+        description: The high temperature (F).
+      - name: temperature_mid
+        description: The midday temperature (F). 
+      - name: temperature_low
+        description: The low temperature (F).
+      - name: dew_point
+        description: The dew point temperature (F). 
+      - name: humidity
+        description: The relative humidity (%).
+      - name: cloud_cover
+        description: How much of the sky was covered in cloud (%).
+      - name: moon_phase
+        description: >
+          The fractional portion through the current moon cycle.
+          0 - new moon, 0.5 - full moon, 1.0 - next new moon.
+      - name: precip_intensity
+        description: The amount of liquid precipitation that fell in inches.
+      - name: precip_probability
+        description: The likelihood of measurable precipitation (%).
+      - name: precip_type
+        description: The types of precipitation expected or that occurred.
+      - name: pressure
+        description: The sea level atmospheric pressure in millibars.
+      - name: summary
+        description: A long form text description of the weather conditions.
+      - name: conditions
+        description: Shorter form text description of the weather conditions.
+      - name: uv_index
+        description: The UV exposure, on a scale from 1 to 10.
+      - name: visibility
+        description: The distance (miles) at which distant objects are visible.
+      - name: wind_bearing
+        description: The direction the wind is blowing.
+      - name: wind_speed
+        description: >
+          The maximum sustained (for 2 min or more) wind speed in miles per
+          hour.
