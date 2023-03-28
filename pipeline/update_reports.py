@@ -89,6 +89,7 @@ def update_reports(
     combined_reports.write_csv(reports_orig_file)
     logger.info(f"Writing combined reports to {reports_source_file}.")
     combined_reports.write_csv(reports_source_file)
+    return True
 
 
 if __name__ == "__main__":
