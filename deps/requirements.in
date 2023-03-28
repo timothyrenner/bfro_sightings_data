@@ -14,7 +14,8 @@ ydata-profiling
 
 duckdb
 polars[pyarrow]
-prefect>=2,<3
+prefect==2.8.7
 prefect-shell
+prefect-dbt
 h3<4.0
 dbt-duckdb

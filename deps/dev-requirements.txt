@@ -73,7 +73,7 @@ cffi==1.15.1
     #   -r deps/requirements.txt
     #   cryptography
     #   dbt-core
-charset-normalizer==3.0.1
+charset-normalizer==3.1.0
     # via
     #   -r deps/requirements.txt
     #   requests
@@ -111,7 +111,7 @@ croniter==1.3.8
     # via
     #   -r deps/requirements.txt
     #   prefect
-cryptography==39.0.2
+cryptography==40.0.1
     # via
     #   -r deps/requirements.txt
     #   prefect
@@ -127,7 +127,7 @@ cycler==0.11.0
     # via
     #   -r deps/requirements.txt
     #   matplotlib
-dateparser==1.1.7
+dateparser==1.1.8
     # via
     #   -r deps/requirements.txt
     #   prefect
@@ -135,6 +135,7 @@ dbt-core==1.4.5
     # via
     #   -r deps/requirements.txt
     #   dbt-duckdb
+    #   prefect-dbt
 dbt-duckdb==1.4.1
     # via -r deps/requirements.txt
 dbt-extractor==0.4.1
@@ -153,7 +154,7 @@ fastapi==0.95.0
     # via
     #   -r deps/requirements.txt
     #   prefect
-filelock==3.9.0
+filelock==3.10.7
     # via
     #   -r deps/requirements.txt
     #   tldextract
@@ -169,10 +170,14 @@ future==0.18.3
     # via
     #   -r deps/requirements.txt
     #   parsedatetime
-google-auth==2.16.2
+google-auth==2.16.3
     # via
     #   -r deps/requirements.txt
     #   kubernetes
+graphql-core==3.2.3
+    # via
+    #   -r deps/requirements.txt
+    #   sgqlc
 greenlet==2.0.2
     # via
     #   -r deps/requirements.txt
@@ -316,7 +321,7 @@ mako==1.2.4
     # via
     #   -r deps/requirements.txt
     #   alembic
-markdown==3.4.1
+markdown==3.4.3
     # via
     #   -r deps/requirements.txt
     #   apprise
@@ -388,7 +393,7 @@ oauthlib==3.2.2
     # via
     #   -r deps/requirements.txt
     #   requests-oauthlib
-orjson==3.8.7
+orjson==3.8.8
     # via
     #   -r deps/requirements.txt
     #   prefect
@@ -444,16 +449,21 @@ pillow==9.4.0
     #   imagehash
     #   matplotlib
     #   visions
-platformdirs==3.1.0
+platformdirs==3.2.0
     # via black
-polars[pyarrow]==0.16.11
+polars[pyarrow]==0.16.16
     # via -r deps/requirements.txt
-prefect==2.8.6
+prefect==2.8.7
     # via
     #   -r deps/requirements.txt
+    #   prefect-dbt
     #   prefect-shell
-prefect-shell==0.1.5
+prefect-dbt==0.3.1
     # via -r deps/requirements.txt
+prefect-shell==0.1.5
+    # via
+    #   -r deps/requirements.txt
+    #   prefect-dbt
 protego==0.2.1
     # via
     #   -r deps/requirements.txt
@@ -477,7 +487,7 @@ pycparser==2.21
     # via
     #   -r deps/requirements.txt
     #   cffi
-pydantic==1.10.6
+pydantic==1.10.7
     # via
     #   -r deps/requirements.txt
     #   fastapi
@@ -493,7 +503,7 @@ pygments==2.14.0
     # via
     #   -r deps/requirements.txt
     #   rich
-pyopenssl==23.0.0
+pyopenssl==23.1.1
     # via
     #   -r deps/requirements.txt
     #   scrapy
@@ -526,7 +536,7 @@ pytimeparse==1.1.8
     # via
     #   -r deps/requirements.txt
     #   agate
-pytz==2022.7.1
+pytz==2023.2
     # via
     #   -r deps/requirements.txt
     #   dateparser
@@ -561,7 +571,7 @@ readchar==4.0.5
     # via
     #   -r deps/requirements.txt
     #   prefect
-regex==2022.10.31
+regex==2023.3.23
     # via
     #   -r deps/requirements.txt
     #   dateparser
@@ -590,7 +600,7 @@ rfc3986[idna2008]==1.5.0
     # via
     #   -r deps/requirements.txt
     #   httpx
-rich==13.3.2
+rich==13.3.3
     # via
     #   -r deps/requirements.txt
     #   prefect
@@ -598,7 +608,7 @@ rsa==4.9
     # via
     #   -r deps/requirements.txt
     #   google-auth
-ruff==0.0.254
+ruff==0.0.259
     # via -r deps/dev-requirements.in
 scipy==1.9.3
     # via
@@ -617,6 +627,10 @@ service-identity==21.1.0
     # via
     #   -r deps/requirements.txt
     #   scrapy
+sgqlc==16.1
+    # via
+    #   -r deps/requirements.txt
+    #   prefect-dbt
 six==1.16.0
     # via
     #   -r deps/requirements.txt
@@ -708,7 +722,7 @@ typing-extensions==4.5.0
     #   pydantic
     #   starlette
     #   twisted
-tzdata==2022.7
+tzdata==2023.2
     # via
     #   -r deps/requirements.txt
     #   pytz-deprecation-shim
@@ -716,7 +730,7 @@ tzlocal==4.3
     # via
     #   -r deps/requirements.txt
     #   dateparser
-urllib3==1.26.14
+urllib3==1.26.15
     # via
     #   -r deps/requirements.txt
     #   docker
@@ -749,13 +763,13 @@ werkzeug==2.2.3
     # via
     #   -r deps/requirements.txt
     #   dbt-core
-ydata-profiling==4.1.1
+ydata-profiling==4.1.2
     # via -r deps/requirements.txt
 zipp==3.15.0
     # via
     #   -r deps/requirements.txt
     #   importlib-metadata
-zope-interface==5.5.2
+zope-interface==6.0
     # via
     #   -r deps/requirements.txt
     #   scrapy
