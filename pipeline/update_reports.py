@@ -51,7 +51,30 @@ def combine_reports_task(
         WITH all_rows AS (
             SELECT * FROM '{reports_orig_file}'
             UNION ALL
-            SELECT * FROM '{reports_new_file}'
+            SELECT * FROM READ_NDJSON(
+                '{reports_new_file}',
+                columns={{
+                    YEAR: 'VARCHAR',
+                    SEASON: 'VARCHAR',
+                    MONTH: 'VARCHAR',
+                    DATE: 'VARCHAR',
+                    STATE: 'VARCHAR',
+                    COUNTY: 'VARCHAR',
+                    LOCATION_DETAILS: 'VARCHAR',
+                    NEAREST_TOWN: 'VARCHAR',
+                    NEAREST_ROAD: 'VARCHAR',
+                    OBSERVED: 'VARCHAR',
+                    ALSO_NOTICED: 'VARCHAR',
+                    OTHER_WITNESSES: 'VARCHAR',
+                    OTHER_STORIES: 'VARCHAR',
+                    TIME_AND_CONDITIONS: 'VARCHAR',
+                    ENVIRONMENT: 'VARCHAR',
+                    REPORT_NUMBER: 'BIGINT',
+                    REPORT_CLASS: 'VARCHAR',
+                    "A_&_G_References": 'VARCHAR',
+                    pulled_datetime: "TIMESTAMP"
+                }}
+            )
         )
         SELECT * FROM all_rows
         QUALIFY ROW_NUMBER() OVER(
