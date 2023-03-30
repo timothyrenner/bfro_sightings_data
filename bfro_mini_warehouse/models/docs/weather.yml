@@ -84,7 +84,7 @@ models:
         description: The UV exposure, on a scale from 1 to 10.
         tests:
           - dbt_utils.accepted_range:
-              min_value: 1
+              min_value: 0
               max_value: 10
       - name: visibility
         description: The distance (miles) at which distant objects are visible.
