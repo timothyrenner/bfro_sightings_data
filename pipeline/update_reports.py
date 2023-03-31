@@ -7,35 +7,31 @@ from prefect_shell import ShellOperation
 
 
 @task(name="Run scraper")
-def run_scraper_task(reports_new_file: Path, test_run: bool = False) -> bool:
+def run_scraper_task(reports_new_file: Path, test_run: bool = False) -> Path:
     logger = get_run_logger()
     logger.info("Firing up the scraper.")
-    try:
-        scraper_working_dir = "scraper/bfro_scrape"
-        scraper = ShellOperation(
-            commands=[
-                "scrapy crawl bfro_reports "
-                f"-a test_run={test_run} "
-                f"--overwrite-output new_reports.json:jsonlines"
-            ],
-            working_dir=scraper_working_dir,
-        ).trigger()
+    scraper_working_dir = "scraper/bfro_scrape"
+    scraper = ShellOperation(
+        commands=[
+            "scrapy crawl bfro_reports "
+            f"-a test_run={test_run} "
+            f"--overwrite-output new_reports.json:jsonlines"
+        ],
+        working_dir=scraper_working_dir,
+    ).trigger()
 
-        scraper.wait_for_completion()
-        logger.info(
-            "Scraper completed. "
-            f"Saved to {scraper_working_dir}/new_reports.json"
-        )
+    scraper.wait_for_completion()
+    logger.info(
+        "Scraper completed. "
+        f"Saved to {scraper_working_dir}/new_reports.json"
+    )
 
-        ShellOperation(
-            commands=[
-                f"cp {scraper_working_dir}/new_reports.json {reports_new_file}"
-            ]
-        ).run()
-        return True
-    except Exception:
-        logger.exception("Error running scraper.")
-        return False
+    ShellOperation(
+        commands=[
+            f"cp {scraper_working_dir}/new_reports.json {reports_new_file}"
+        ]
+    ).run()
+    return reports_new_file
 
 
 @task(name="Combine reports")
@@ -72,7 +68,7 @@ def combine_reports_task(
                     REPORT_NUMBER: 'BIGINT',
                     REPORT_CLASS: 'VARCHAR',
                     "A_&_G_References": 'VARCHAR',
-                    pulled_datetime: "TIMESTAMP"
+                    pulled_datetime: 'TIMESTAMP'
                 }}
             )
         )
@@ -86,19 +82,22 @@ def combine_reports_task(
 
 @flow(name="Update reports")
 def update_reports(
-    reports_orig_file: Path = Path("data_new/raw/reports/bfro_reports.csv"),
-    reports_new_file: Path = Path(
-        "data_new/raw/reports/bfro_reports_new.json"
-    ),
-    reports_source_file: Path = Path("data_new/sources/bfro_reports.csv"),
+    data_dir: Path = Path("data"),
     test_run: bool = False,
 ) -> bool:
     logger = get_run_logger()
-    scraper_successful = run_scraper_task(reports_new_file, test_run=test_run)
+    reports_orig_file = data_dir / Path("raw/reports/bfro_reports.csv")
+    logger.info(f"reports_orig_file: {reports_orig_file}")
 
-    if not scraper_successful:
-        logger.error("Scraper failed.")
-        return False
+    reports_new_file = data_dir / Path("raw/reports/bfro_reports_new.json")
+    logger.info(f"reports_new_file: {reports_new_file}")
+
+    reports_source_file = data_dir / Path("sources/bfro_reports.csv")
+    logger.info(f"reports_source_file: {reports_source_file}")
+
+    # Mostly the output is a signal that the task completed, and establishes
+    # the data dependency between this and the combining reports task.
+    reports_new_file = run_scraper_task(reports_new_file, test_run=test_run)
 
     if reports_orig_file.exists():
         logger.info(f"{reports_orig_file} exists, combining with new data.")

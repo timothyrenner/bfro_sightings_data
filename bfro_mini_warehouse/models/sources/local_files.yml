@@ -5,7 +5,7 @@ sources:
     description: >
       Local file sources, extracted from the site, KML file, and weather API.
     meta:
-      external_location: "~/bfro_sightings_data/data_new/sources/{name}.csv"
+      external_location: "~/bfro_sightings_data/data/sources/{name}.csv"
     tables:
       - name: bfro_reports
         description: Full text reports extracted from the BFRO site via scrapy.

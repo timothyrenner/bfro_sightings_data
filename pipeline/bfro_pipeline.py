@@ -4,15 +4,22 @@ from prefect_dbt.cli.commands import DbtCoreOperation
 from update_reports import update_reports
 from update_geocoder import pull_and_update_geocoded_reports
 from update_weather import update_weather
+from pathlib import Path
 
 
 @flow(name="Update sources")
-def set_up_sources(weather_limit: int = 900, test_run: bool = False) -> bool:
-    reports_updated = update_reports(test_run=test_run)
-    geocoder_updated = pull_and_update_geocoded_reports()
+def set_up_sources(
+    data_dir: Path = Path("data"),
+    weather_limit: int = 900,
+    test_run: bool = False,
+) -> bool:
+    reports_updated = update_reports(data_dir=data_dir, test_run=test_run)
+    geocoder_updated = pull_and_update_geocoded_reports(data_dir=data_dir)
     weather_updated = False
     if geocoder_updated:
-        weather_updated = update_weather(limit=weather_limit)
+        weather_updated = update_weather(
+            limit=weather_limit, data_dir=data_dir
+        )
 
     return reports_updated and geocoder_updated and weather_updated
 
@@ -21,16 +28,12 @@ def set_up_sources(weather_limit: int = 900, test_run: bool = False) -> bool:
 def dbt_test_sources() -> bool:
     logger = get_run_logger()
     logger.info("Testing sources.")
-    try:
-        DbtCoreOperation(
-            commands=["dbt test --select local_files"],
-            project_dir="bfro_mini_warehouse",
-            profiles_dir="bfro_mini_warehouse",
-        ).run()
-        logger.info("Testing completed.")
-    except Exception:
-        logger.exception("Error testing DBT sources.")
-        return False
+    DbtCoreOperation(
+        commands=["dbt test --select local_files"],
+        project_dir="bfro_mini_warehouse",
+        profiles_dir="bfro_mini_warehouse",
+    ).run()
+    logger.info("Testing completed.")
     return True
 
 
@@ -38,16 +41,12 @@ def dbt_test_sources() -> bool:
 def dbt_run() -> bool:
     logger = get_run_logger()
     logger.info("Building csv files with DBT.")
-    try:
-        DbtCoreOperation(
-            commands=["dbt run"],
-            project_dir="bfro_mini_warehouse",
-            profiles_dir="bfro_mini_warehouse",
-        ).run()
-        logger.info("DBT run completed.")
-    except Exception:
-        logger.exception("Error building csv files with DBT.")
-        return False
+    DbtCoreOperation(
+        commands=["dbt run"],
+        project_dir="bfro_mini_warehouse",
+        profiles_dir="bfro_mini_warehouse",
+    ).run()
+    logger.info("DBT run completed.")
 
     return True
 
@@ -78,28 +77,31 @@ def dbt() -> bool:
 
 
 @flow(name="BFRO Pipeline")
-def main(test_run: bool = True, dbt_only: bool = False) -> bool:
+def main(
+    test_run: bool = True,
+    dbt_only: bool = False,
+) -> bool:
     logger = get_run_logger()
     weather_limit = 900
     if test_run:
         logger.info("Test run selected.")
         weather_limit = 25
 
+    # data_dir needs to be hard coded to what DBT expects to see.
+    # NOTE could make data dir a var, and template that in potentially,
+    # depending on whether we can pass vars in to the dbt task or not.
+    data_dir = Path("data")
     sources_updated = False
     if not dbt_only:
         sources_updated = set_up_sources(
-            weather_limit=weather_limit, test_run=test_run
+            data_dir=data_dir, weather_limit=weather_limit, test_run=test_run
         )
 
     if not sources_updated and not dbt_only:
         logger.info("Source update incomplete. Terminating flow.")
         return False
-    dbt_complete = dbt()
+    dbt()
 
-    if not dbt_complete:
-        logger.error("Error completing DBT run.")
-        # TODO: Stop catching / throwing exceptions, just let them bubble up.
-        raise Exception("Error completing DBT run.")
     return True
 
 

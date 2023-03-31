@@ -38,14 +38,22 @@ def merge_weather_data(
 
 @flow(name="Update weather")
 def update_weather(
-    weather_cache_file: Path = Path("data_new/raw/weather/weather_cache.csv"),
-    geocoded_reports_file: Path = Path(
-        "data_new/raw/geocoder/geocoded_reports.csv"
-    ),
-    source_weather_file: Path = Path("data_new/sources/weather_cache.csv"),
+    data_dir: Path = Path("data"),
     limit: int = 900,
 ) -> bool:
     logger = get_run_logger()
+
+    weather_cache_file = data_dir / Path("raw/weather/weather_cache.csv")
+    logger.info(f"weather_cache_file: {weather_cache_file}")
+
+    geocoded_reports_file = data_dir / Path(
+        "raw/geocoder/geocoded_reports.csv"
+    )
+    logger.info(f"geocoded_reports_file: {geocoded_reports_file}")
+
+    source_weather_file = data_dir / Path("sources/weather_cache.csv")
+    logger.info(f"source_weather_file: {source_weather_file}")
+
     logger.info("Getting missing weather keys.")
     missing_weather_keys = get_missing_weather_keys_task(
         geocoded_reports_file, weather_cache_file
@@ -61,6 +69,7 @@ def update_weather(
     new_weather_data, weather_limit_reached = pull_weather_data(
         missing_weather_keys, limit=limit
     )
+    logger.info(f"Pulled {new_weather_data.shape[0]} new weather records.")
     if not weather_cache_file.exists():
         logger.info(f"Weather cache file {weather_cache_file} does not exist.")
         logger.info("Saving what was just pulled.")

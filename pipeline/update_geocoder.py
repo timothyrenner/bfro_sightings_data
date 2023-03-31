@@ -52,12 +52,18 @@ def save_combined_reports(
 
 @flow(name="Update geocoded reports")
 def pull_and_update_geocoded_reports(
-    aspx_file: Path = Path("./data_new/raw/geocoder/AllReportsKMZ.aspx"),
-    orig_report_file: Path = Path(
-        "./data_new/raw/geocoder/geocoded_reports.csv"
-    ),
-    source_report_file: Path = Path("./data_new/sources/geocoded_reports.csv"),
+    data_dir: Path = Path("data"),
 ) -> bool:
+    logger = get_run_logger()
+    aspx_file = data_dir / Path("raw/geocoder/AllReportsKMZ.aspx")
+    logger.info(f"aspx_file: {aspx_file}")
+
+    orig_report_file = data_dir / Path("raw/geocoder/geocoded_reports.csv")
+    logger.info(f"orig_report_file: {orig_report_file}")
+
+    source_report_file = data_dir / Path("sources/geocoded_reports.csv")
+    logger.info(f"source_report_file: {source_report_file}")
+
     kml_file = download_and_unzip_aspx_file(aspx_file)
     new_geocoded_reports = extract_geocoded_reports_task(kml_file)
     if orig_report_file.exists():
