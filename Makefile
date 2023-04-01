@@ -30,6 +30,33 @@ check:
 	python -m ruff check .
 	python -m black --check .
 
+.PHONY: build-docker
+## Build docker with local registry tag
+build-docker:
+	docker build --tag localhost:5000/bfro_pipeline:latest .
+
+.PHONY: push-docker
+## Push docker to local registry
+push-docker:
+	docker push localhost:5000/bfro_pipeline:latest
+
+.PHONY: build-deployment
+## Builds the Prefect deployment yaml file.
+build-deployment:
+	cd pipeline && \
+	prefect deployment build \
+		bfro_pipeline_docker:main \
+		--name bfro-pipeline \
+		--pool default-agent-pool \
+		--work-queue default \
+		--infra-block docker-container/bfro-pipeline \
+		--storage-block gcs/bfro-pipeline-storage
+
+.PHONY: apply-deployment
+## Sends the Prefect deployment file to the server.
+apply-deployment:
+	prefect deployment apply pipeline/main-deployment.yaml
+
 #################################################################################
 # Self Documenting Commands                                                     #
 #################################################################################

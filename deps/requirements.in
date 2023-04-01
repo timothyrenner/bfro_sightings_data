@@ -20,3 +20,4 @@ prefect-dbt
 prefect-gcp[cloud_storage]
 h3<4.0
 dbt-duckdb
+gcsfs!=2023.3.0

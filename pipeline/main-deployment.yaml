@@ -1,0 +1,71 @@
+###
+### A complete description of a Prefect Deployment for flow 'BFRO Pipeline (Docker)'
+###
+name: bfro-pipeline
+description: null
+version: 9d6c50aa971536ce5e8a42d0a9346094
+# The work queue that will handle this deployment's runs
+work_queue_name: default
+work_pool_name: default-agent-pool
+tags: []
+parameters: {}
+schedule: null
+is_schedule_active: null
+infra_overrides: {}
+
+###
+### DO NOT EDIT BELOW THIS LINE
+###
+flow_name: BFRO Pipeline (Docker)
+manifest_path: null
+infrastructure:
+  type: docker-container
+  env: {}
+  labels: {}
+  name: null
+  command: null
+  image: localhost:5000/bfro_pipeline:latest
+  image_pull_policy: ALWAYS
+  image_registry: null
+  networks: []
+  network_mode: null
+  auto_remove: false
+  volumes: []
+  stream_output: true
+  memswap_limit: null
+  mem_limit: null
+  privileged: false
+  _block_document_id: 014cceb4-449c-403a-bf5a-7c32ad784da9
+  _block_document_name: bfro-pipeline
+  _is_anonymous: false
+  block_type_slug: docker-container
+  _block_type_slug: docker-container
+storage:
+  bucket_path: trenner-datasets/bfro-pipeline
+  service_account_info: '**********'
+  project: null
+  _block_document_id: 246e2c05-6aa6-42ba-9b1c-608904e06fd2
+  _block_document_name: bfro-pipeline-storage
+  _is_anonymous: false
+  block_type_slug: gcs
+  _block_type_slug: gcs
+path: ''
+entrypoint: bfro_pipeline_docker:main
+parameter_openapi_schema:
+  title: Parameters
+  type: object
+  properties:
+    data_dir:
+      title: data_dir
+      default: data
+      position: 0
+      type: string
+      format: path
+    test_run:
+      title: test_run
+      default: false
+      position: 1
+      type: boolean
+  required: null
+  definitions: null
+timestamp: '2023-04-01T19:41:02.196210+00:00'
