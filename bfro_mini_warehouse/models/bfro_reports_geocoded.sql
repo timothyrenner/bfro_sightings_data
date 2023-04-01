@@ -1,7 +1,7 @@
 {{
     config(
         materialized="external",
-        location="../data/processed/bfro_reports_geocoded.csv",
+        location=var('data_dir') + "/processed/bfro_reports_geocoded.csv",
         format="csv"
     )
 }}

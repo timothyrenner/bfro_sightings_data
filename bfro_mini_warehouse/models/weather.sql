@@ -1,6 +1,6 @@
 {{ config(
     materialized="external",
-    location="../data/interim/weather.csv",
+    location=var('data_dir') + "/interim/weather.csv",
     format="csv",
     pre_hook="
         CREATE MACRO convert_str_null_to_null(col) AS 
