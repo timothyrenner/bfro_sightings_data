@@ -4,8 +4,8 @@ import duckdb
 
 
 def main(
-    orig_json_file: Path = "data/raw/bfro_reports.json",
-    new_csv_file: Path = "data_new/raw/reports/bfro_reports.csv",
+    orig_json_file: Path = "data_old/raw/bfro_reports.json",
+    new_csv_file: Path = "data/raw/reports/bfro_reports.csv",
 ):
     duckdb.sql(
         f"""
