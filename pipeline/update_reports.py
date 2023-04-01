@@ -68,7 +68,7 @@ def combine_reports_task(
                     REPORT_NUMBER: 'BIGINT',
                     REPORT_CLASS: 'VARCHAR',
                     "A_&_G_References": 'VARCHAR',
-                    pulled_datetime: 'TIMESTAMP'
+                    PULLED_DATETIME: 'VARCHAR'
                 }}
             )
         )

@@ -6,6 +6,11 @@ name: 'bfro_mini_warehouse'
 version: '1.0.0'
 config-version: 2
 
+# Local only. Docker runs will need to pass this explicitly.
+# The Prefect pipelines should "just handle it" though.
+vars:
+  data_dir: "~/bfro_sightings_data/data"
+
 # This setting configures which "profile" dbt uses for this project.
 profile: 'bfro_mini_warehouse'
 

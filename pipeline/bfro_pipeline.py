@@ -25,11 +25,14 @@ def set_up_sources(
 
 
 @task(name="DBT test sources")
-def dbt_test_sources() -> bool:
+def dbt_test_sources(data_dir: Path = Path("data")) -> bool:
     logger = get_run_logger()
     logger.info("Testing sources.")
     DbtCoreOperation(
-        commands=["dbt test --select local_files"],
+        commands=[
+            "dbt test --select local_files "
+            f'--vars \'{{"data_dir":"{data_dir}"}}\''
+        ],
         project_dir="bfro_mini_warehouse",
         profiles_dir="bfro_mini_warehouse",
     ).run()
@@ -38,11 +41,11 @@ def dbt_test_sources() -> bool:
 
 
 @task(name="DBT run")
-def dbt_run() -> bool:
+def dbt_run(data_dir: Path = Path("data")) -> bool:
     logger = get_run_logger()
     logger.info("Building csv files with DBT.")
     DbtCoreOperation(
-        commands=["dbt run"],
+        commands=[f'dbt run --vars \'{{"data_dir":"{data_dir}"}}\''],
         project_dir="bfro_mini_warehouse",
         profiles_dir="bfro_mini_warehouse",
     ).run()
@@ -52,11 +55,15 @@ def dbt_run() -> bool:
 
 
 @task(name="DBT test")
-def dbt_test() -> bool:
+def dbt_test(data_dir: Path = Path("data")) -> bool:
     logger = get_run_logger()
     logger.info("Testing DBT models.")
     DbtCoreOperation(
-        commands=["dbt test --exclude source:*"],
+        commands=[
+            "dbt test --exclude source:* "
+            # Yikes that double escaping 😬
+            f'--vars \'{{"data_dir":"{data_dir}"}}\''
+        ],
         project_dir="bfro_mini_warehouse",
         profiles_dir="bfro_mini_warehouse",
     ).run()
@@ -65,21 +72,22 @@ def dbt_test() -> bool:
 
 
 @flow(name="DBT")
-def dbt() -> bool:
-    sources_pass = dbt_test_sources()
+def dbt(data_dir: Path = Path("data")) -> bool:
+    sources_pass = dbt_test_sources(data_dir)
     if not sources_pass:
         return False
-    run_completed = dbt_run()
+    run_completed = dbt_run(data_dir)
     if not run_completed:
         return False
-    tests_pass = dbt_test()
+    tests_pass = dbt_test(data_dir)
     return tests_pass
 
 
 @flow(name="BFRO Pipeline")
 def main(
-    test_run: bool = True,
+    test_run: bool = False,
     dbt_only: bool = False,
+    data_dir: Path = Path("data"),
 ) -> bool:
     logger = get_run_logger()
     weather_limit = 900
@@ -87,10 +95,6 @@ def main(
         logger.info("Test run selected.")
         weather_limit = 25
 
-    # data_dir needs to be hard coded to what DBT expects to see.
-    # NOTE could make data dir a var, and template that in potentially,
-    # depending on whether we can pass vars in to the dbt task or not.
-    data_dir = Path("data")
     sources_updated = False
     if not dbt_only:
         sources_updated = set_up_sources(
@@ -100,7 +104,7 @@ def main(
     if not sources_updated and not dbt_only:
         logger.info("Source update incomplete. Terminating flow.")
         return False
-    dbt()
+    dbt(data_dir=data_dir)
 
     return True
 
