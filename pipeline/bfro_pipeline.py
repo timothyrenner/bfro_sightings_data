@@ -31,7 +31,7 @@ def dbt_test_sources(data_dir: Path = Path("data")) -> bool:
     DbtCoreOperation(
         commands=[
             "dbt test --select local_files "
-            f'--vars \'{{"data_dir":"{data_dir}"}}\''
+            f'--vars \'{{"data_dir":"{data_dir.absolute()}"}}\''
         ],
         project_dir="bfro_mini_warehouse",
         profiles_dir="bfro_mini_warehouse",
@@ -45,7 +45,9 @@ def dbt_run(data_dir: Path = Path("data")) -> bool:
     logger = get_run_logger()
     logger.info("Building csv files with DBT.")
     DbtCoreOperation(
-        commands=[f'dbt run --vars \'{{"data_dir":"{data_dir}"}}\''],
+        commands=[
+            f'dbt run --vars \'{{"data_dir":"{data_dir.absolute()}"}}\''
+        ],
         project_dir="bfro_mini_warehouse",
         profiles_dir="bfro_mini_warehouse",
     ).run()
@@ -62,7 +64,7 @@ def dbt_test(data_dir: Path = Path("data")) -> bool:
         commands=[
             "dbt test --exclude source:* "
             # Yikes that double escaping 😬
-            f'--vars \'{{"data_dir":"{data_dir}"}}\''
+            f'--vars \'{{"data_dir":"{data_dir.absolute()}"}}\''
         ],
         project_dir="bfro_mini_warehouse",
         profiles_dir="bfro_mini_warehouse",
