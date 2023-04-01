@@ -30,7 +30,7 @@ def dbt_test_sources(data_dir: Path = Path("data")) -> bool:
     logger.info("Testing sources.")
     DbtCoreOperation(
         commands=[
-            "dbt test --select local_files "
+            "dbt test --select source:local_files "
             f'--vars \'{{"data_dir":"{data_dir.absolute()}"}}\''
         ],
         project_dir="bfro_mini_warehouse",
