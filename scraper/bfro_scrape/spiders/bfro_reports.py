@@ -92,8 +92,8 @@ class BfroReportSpider(scrapy.Spider):
         # it just means a bad scrape.
         if data and any(data.values()):
             # Add the datetime of the extraction.
-            data["PULLED_DATETIME"] = datetime.today().isoformat(
+            data["pulled_datetime"] = datetime.today().isoformat(
                 timespec="seconds"
             )
-
-            yield data
+            # Make the keys lower case now.
+            yield {k.lower(): v for k, v in data.items()}
