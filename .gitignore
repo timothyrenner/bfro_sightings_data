@@ -11,3 +11,6 @@ scraper/bfro_scrape/new_reports.csv
 scraper/bfro_scrape/new_reports.json
 logs
 data_old
+test.csv
+data_backup
+

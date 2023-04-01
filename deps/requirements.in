@@ -17,5 +17,6 @@ polars[pyarrow]
 prefect==2.8.7
 prefect-shell
 prefect-dbt
+prefect-gcp[cloud_storage]
 h3<4.0
 dbt-duckdb

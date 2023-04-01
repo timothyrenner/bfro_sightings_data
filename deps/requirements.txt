@@ -108,8 +108,33 @@ fsspec==2023.1.0
     # via prefect
 future==0.18.3
     # via parsedatetime
+google-api-core==2.11.0
+    # via
+    #   google-api-python-client
+    #   google-cloud-core
+    #   google-cloud-storage
+google-api-python-client==2.83.0
+    # via prefect-gcp
 google-auth==2.16.3
-    # via kubernetes
+    # via
+    #   google-api-core
+    #   google-api-python-client
+    #   google-auth-httplib2
+    #   google-cloud-core
+    #   google-cloud-storage
+    #   kubernetes
+google-auth-httplib2==0.1.0
+    # via google-api-python-client
+google-cloud-core==2.3.2
+    # via google-cloud-storage
+google-cloud-storage==2.8.0
+    # via prefect-gcp
+google-crc32c==1.5.0
+    # via google-resumable-media
+google-resumable-media==2.4.1
+    # via google-cloud-storage
+googleapis-common-protos==1.59.0
+    # via google-api-core
 graphql-core==3.2.3
     # via sgqlc
 greenlet==2.0.2
@@ -136,6 +161,10 @@ htmlmin==0.1.12
     # via ydata-profiling
 httpcore==0.16.3
     # via httpx
+httplib2==0.22.0
+    # via
+    #   google-api-python-client
+    #   google-auth-httplib2
 httpx[http2]==0.23.3
     # via prefect
 hyperframe==6.0.1
@@ -298,8 +327,11 @@ prefect==2.8.7
     # via
     #   -r deps/requirements.in
     #   prefect-dbt
+    #   prefect-gcp
     #   prefect-shell
 prefect-dbt==0.3.1
+    # via -r deps/requirements.in
+prefect-gcp[cloud_storage]==0.3.0
     # via -r deps/requirements.in
 prefect-shell==0.1.5
     # via
@@ -307,6 +339,10 @@ prefect-shell==0.1.5
     #   prefect-dbt
 protego==0.2.1
     # via scrapy
+protobuf==4.22.1
+    # via
+    #   google-api-core
+    #   googleapis-common-protos
 pyarrow==11.0.0
     # via polars
 pyasn1==0.4.8
@@ -334,7 +370,9 @@ pygments==2.14.0
 pyopenssl==23.1.1
     # via scrapy
 pyparsing==3.0.9
-    # via matplotlib
+    # via
+    #   httplib2
+    #   matplotlib
 pyrsistent==0.19.3
     # via jsonschema
 python-dateutil==2.8.2
@@ -384,6 +422,8 @@ requests==2.28.2
     #   apprise
     #   dbt-core
     #   docker
+    #   google-api-core
+    #   google-cloud-storage
     #   kubernetes
     #   minimal-snowplow-tracker
     #   requests-file
@@ -420,6 +460,7 @@ six==1.16.0
     # via
     #   automat
     #   google-auth
+    #   google-auth-httplib2
     #   isodate
     #   jsonschema
     #   kubernetes
@@ -482,6 +523,8 @@ tzdata==2023.2
     # via pytz-deprecation-shim
 tzlocal==4.3
     # via dateparser
+uritemplate==4.1.1
+    # via google-api-python-client
 urllib3==1.26.15
     # via
     #   docker
