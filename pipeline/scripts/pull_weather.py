@@ -11,12 +11,15 @@ import loguru
 from loguru import logger
 from datetime import date, datetime
 
-load_dotenv(find_dotenv())
-VISUAL_CROSSING_KEY = os.getenv("VISUAL_CROSSING_KEY")
-if not VISUAL_CROSSING_KEY:
-    raise ValueError(
-        "Unable to find VISUAL_CROSSING_KEY in .env or environment."
-    )
+
+def get_visual_crossing_key_from_env() -> str:
+    load_dotenv(find_dotenv())
+    visual_crossing_key = os.getenv("VISUAL_CROSSING_KEY")
+    if not visual_crossing_key:
+        raise ValueError(
+            "Unable to find VISUAL_CROSSING_KEY in .env or environment."
+        )
+    return visual_crossing_key
 
 
 def get_missing_weather_keys(
@@ -63,7 +66,10 @@ def create_weather_request(
 
 
 def pull_missing_weather(
-    missing_weather_keys: pl.DataFrame, limit: int = 900, logger=loguru.logger
+    missing_weather_keys: pl.DataFrame,
+    visual_crossing_key: str,
+    limit: int = 900,
+    logger=loguru.logger,
 ) -> Tuple[pl.DataFrame, bool]:
     weather_data: List[Dict[str, str]] = []
     total_calls = 0
@@ -75,7 +81,7 @@ def pull_missing_weather(
         logger.info(f"Making weather request: {weather_request}")
         response = requests.get(
             weather_request,
-            params={"key": VISUAL_CROSSING_KEY, "include": "days"},
+            params={"key": visual_crossing_key, "include": "days"},
         )
         if response.ok:
             weather_response = response.text
@@ -124,6 +130,7 @@ def merge_new_records_with_weather_cache(
 def main(
     weather_cache_file: Path, geocoded_reports_file: Path, limit: int = 900
 ):
+    visual_crossing_key = get_visual_crossing_key_from_env()
     logger.info(f"Getting missing weather keys from {geocoded_reports_file}.")
     missing_weather_keys = get_missing_weather_keys(
         geocoded_reports_file, weather_cache_file
@@ -132,7 +139,9 @@ def main(
         logger.info("Nothing new to pull. All done.")
         return
     logger.info("Pulling missing weather data.")
-    new_weather_data, _ = pull_missing_weather(missing_weather_keys, limit)
+    new_weather_data, _ = pull_missing_weather(
+        missing_weather_keys, visual_crossing_key, limit
+    )
 
     if not weather_cache_file.exists():
         logger.info(f"Weather cache file {weather_cache_file} does not exist.")

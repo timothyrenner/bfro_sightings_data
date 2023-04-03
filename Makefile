@@ -47,9 +47,9 @@ build-deployment:
 	prefect deployment build \
 		bfro_pipeline_docker:main \
 		--name bfro-pipeline \
-		--pool default-agent-pool \
+		--pool bfro-agent-pool \
 		--work-queue default \
-		--infra-block docker-container/bfro-pipeline \
+		--infra-block process/bfro-local \
 		--storage-block gcs/bfro-pipeline-storage
 
 .PHONY: apply-deployment

@@ -6,8 +6,9 @@ from scripts.pull_weather import (
     get_missing_weather_keys,
     pull_missing_weather,
     merge_new_records_with_weather_cache,
+    get_visual_crossing_key_from_env,
 )
-from typing import Tuple
+from typing import Tuple, Optional
 
 
 @task(name="Get missing weather keys")
@@ -40,8 +41,13 @@ def merge_weather_data(
 def update_weather(
     data_dir: Path = Path("data"),
     limit: int = 900,
+    visual_crossing_key: Optional[str] = None,
 ) -> bool:
     logger = get_run_logger()
+
+    if visual_crossing_key is None:
+        logger.info("Visual crossing key not passed, retrieving from env.")
+        visual_crossing_key = get_visual_crossing_key_from_env()
 
     weather_cache_file = data_dir / Path("raw/weather/weather_cache.csv")
     logger.info(f"weather_cache_file: {weather_cache_file}")

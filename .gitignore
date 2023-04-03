@@ -7,8 +7,8 @@ src/
 visualizations
 safe/
 data_new
-scraper/bfro_scrape/new_reports.csv
-scraper/bfro_scrape/new_reports.json
+pipeline/scraper/bfro_scrape/new_reports.csv
+pipeline/scraper/bfro_scrape/new_reports.json
 logs
 data_old
 test.csv

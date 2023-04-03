@@ -39,3 +39,9 @@ dask-worker-space/
 # VCS
 .git/
 .hg/
+
+data/
+
+## dbt
+bfro_mini_warehouse/logs
+bfro_mini_warehouse/target
