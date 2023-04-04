@@ -1,0 +1,8 @@
+name: bfro-sightings-data
+channels:
+  - defaults
+dependencies:
+  - pip
+  - python=3.9
+  - pip:
+    - pip-tools
