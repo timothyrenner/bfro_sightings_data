@@ -5,17 +5,4 @@ dependencies:
   - pip
   - python=3.9
   - pip:
-      - click
-      - elasticsearch>=5,<6
-      - ipython
-      - lxml
-      - numpy
-      - pandas
-      - pygeohash>=1,<2
-      - python-dotenv
-      - scrapy>=2,<3
-      - toolz
-      - black
-      - flake8
-      - loguru
-      - dvc[gs]
+    - pip-tools

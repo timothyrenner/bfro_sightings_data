@@ -1,0 +1,112 @@
+version: 2
+
+models:
+  - name: weather
+    description: Casted and unpacked weather data.
+    columns:
+      - name: hexid
+        description: The H3 hexid of the weather location, at resolution 10.
+      - name: timestamp
+        description: The timestamp (to the day) for the weather conditions.
+      - name: temperature_high
+        description: The high temperature (F).
+        tests:
+          - dbt_utils.not_null_proportion:
+              at_least: 0.95
+      - name: temperature_low
+        description: The low temperature (F).
+        tests:
+          - dbt_utils.not_null_proportion:
+              at_least: 0.95
+      - name: temperature_mid
+        description: The midday temperature (F). 
+        tests:
+          - dbt_utils.not_null_proportion:
+              at_least: 0.9
+      - name: dew_point
+        description: The dew point temperature (F). 
+        tests:
+          - dbt_utils.not_null_proportion:
+              at_least: 0.9
+      - name: humidity
+        description: The relative humidity (%).
+        tests:
+          - dbt_utils.not_null_proportion:
+              at_least: 0.9
+          - dbt_utils.accepted_range:
+              max_value: 100
+              min_value: 0
+      - name: cloud_cover
+        description: How much of the sky was covered in cloud (%).
+        tests:
+          - dbt_utils.not_null_proportion:
+              at_least: 0.9
+          - dbt_utils.accepted_range:
+              max_value: 100
+              min_value: 0
+      - name: moon_phase
+        description: >
+          The fractional portion through the current moon cycle.
+          0 - new moon, 0.5 - full moon, 1.0 - next new moon.
+        tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              max_value: 1.0
+              min_value: 0.0
+      - name: precip_intensity
+        description: The amount of liquid precipitation that fell in inches.
+        tests:
+          - dbt_utils.accepted_range:
+              min_value: 0.0
+      - name: precip_probability
+        description: The likelihood of measurable precipitation (%).
+        tests:
+          - dbt_utils.not_null_proportion:
+              at_least: 0.9
+          - dbt_utils.accepted_range:
+              min_value: 0
+              max_value: 100
+      - name: precip_type
+        description: The types of precipitation expected or that occurred.
+      - name: pressure
+        description: The sea level atmospheric pressure in millibars.
+      - name: summary
+        description: A long form text description of the weather conditions.
+        tests:
+          - dbt_utils.not_null_proportion:
+              at_least: 0.9
+      - name: conditions
+        description: Shorter form text description of the weather conditions.
+        tests:
+          - dbt_utils.not_null_proportion:
+              at_least: 0.9
+      - name: uv_index
+        description: The UV exposure, on a scale from 1 to 10.
+        tests:
+          - dbt_utils.accepted_range:
+              min_value: 0
+              max_value: 10
+      - name: visibility
+        description: The distance (miles) at which distant objects are visible.
+        tests:
+          - dbt_utils.not_null_proportion:
+              at_least: 0.9
+          - dbt_utils.accepted_range:
+              min_value: 0
+      - name: wind_bearing
+        description: The direction the wind is blowing.
+        tests:
+          - dbt_utils.not_null_proportion:
+              at_least: 0.9
+          - dbt_utils.accepted_range:
+              min_value: 0
+              max_value: 360
+      - name: wind_speed
+        description: >
+          The maximum sustained (for 2 min or more) wind speed in miles per
+          hour.
+        tests:
+          - dbt_utils.not_null_proportion:
+              at_least: 0.9
+          - dbt_utils.accepted_range:
+              min_value: 0

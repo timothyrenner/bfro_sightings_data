@@ -1,0 +1,23 @@
+typer
+lxml
+pygeohash>=1,<2
+python-dotenv
+scrapy>=2,<3
+toolz
+loguru
+ydata-profiling
+
+# Leaving dvc out for now. The issue is a dependency of dvc[gs] (specifically
+# fsspec/gcsfs requires fsspec==2023.3.0. Prefect explicitly ignores this
+# version of fsspec for ... reasons. Idk. It's a PITA.
+# dvc[gs]
+
+duckdb
+polars[pyarrow]
+prefect==2.8.7
+prefect-shell
+prefect-dbt
+prefect-gcp[cloud_storage]
+h3<4.0
+dbt-duckdb
+gcsfs!=2023.3.0

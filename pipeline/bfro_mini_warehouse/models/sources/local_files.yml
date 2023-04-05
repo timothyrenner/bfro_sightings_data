@@ -1,0 +1,154 @@
+version: 2
+
+sources:
+  - name: local_files
+    description: >
+      Local file sources, extracted from the site, KML file, and weather API.
+    meta:
+      external_location: "{{ var('data_dir') }}/sources/{name}.csv"
+    tables:
+      - name: bfro_reports
+        description: Full text reports extracted from the BFRO site via scrapy.
+        columns:
+          - name: year
+            description: The year the sighting took place. Sometimes approximate.
+          - name: season
+            description: The season the sighting took place.
+            tests:
+              - accepted_values:
+                  values: ['Fall', 'Winter', 'Spring', 'Summer', 'Unknown']
+              - not_null
+          - name: month
+            description: The month the sighting occurred.
+          - name: date
+            description: >
+              The date the sighting occurred, as pretty much any format you
+              can think of. Highly non-uniform.
+          - name: state
+            description: The name of the state in which the sighting occurred.
+            tests:
+              - not_null
+          - name: county
+            description: The county in which the sighting occurred.
+            tests:
+              - not_null
+          - name: location_details
+            description: Additional details about the location of the sighting.
+          - name: observed
+            description: The sighting description itself.
+          - name: also_noticed
+            description: Additional details pertinent to the sighting.
+          - name: other_witnesses
+            description: Witnesses to the sighting besides the original reporter.
+          - name: other_stories
+            description: Other stories related to the sighting at that location.
+          - name: time_and_conditions
+            description: >
+              The time of day and natural language weather conditions for the
+              sighting.
+          - name: environment
+            description: >
+              A natural language description of the environment and surrounding
+              area where the sighting occurred.
+          - name: report_number
+            description: >
+              The primary key identifier for each report.
+            tests:
+              - not_null
+              - unique
+          - name: report_class
+            description: >
+              The report classification. Either "Class A" - direct sighting,
+              "Class B" - indirect evidence (footprints, scat, etc), or 
+              "Class C" - rumors and stories.
+            tests:
+              - not_null
+              - accepted_values:
+                  values: ['Class A', 'Class B', 'Class C']
+          - name: a_&_g_references
+            description: >
+              References to what look like external media, newspapers, etc.
+              Null for most of the reports.
+          - name: pulled_datetime
+            description: The datetime the record was scraped.
+            tests:
+              - not_null
+      - name: weather_cache
+        description: >
+          Cache for the weather data, scoped to h3 hexid and date. Weather data
+          is pulled from Visual Crossing's API.
+        tests:
+          - dbt_utils.unique_combination_of_columns:
+              combination_of_columns:
+                - hexid
+                - timestamp
+        columns:
+          - name: hexid
+            description: The H3 hexid of the location, hashed to resolution 10.
+            tests:
+              - not_null
+          - name: timestamp
+            description: >
+              The timestamp of the sighting, resolved to a day. So basically
+              the day the sighting took place.
+            tests:
+              - not_null
+          - name: date_pulled
+            description: The date the data was pulled.
+            tests:
+              - not_null
+          - name: data
+            description: >
+              The exact raw JSON data (as a string) returned by the Visual
+              Crossing API for that location, timestamp. Can be null, indicating
+              the API call failed. Those are saved so they are not retried on
+              subsequent runs. API call failures usually mean there is no data
+              available for that date/time.
+      - name: geocoded_reports 
+        description: >
+          Extracted reports from the source KML file that powers the sighting
+          map, flattened and enhanced with hexids and pull dates, otherwise
+          unchanged.
+        columns:
+          - name: number
+            description: >
+              Primary key for identifying the reports. Note not all reports in
+              this file have a corresponding scraped report.
+            tests:
+              - unique
+              - not_null
+          - name: title
+            description: The title for the report as it appears in the kml file.
+            tests:
+              - not_null
+              - unique
+          - name: classification
+            description: >
+              The report classification. Either "Class A" - direct sighting,
+              "Class B" - indirect evidence (footprints, scat, etc), or 
+              "Class C" - rumors and stories.
+            tests:
+              - not_null
+              - accepted_values:
+                  values: ['Class A', 'Class B', 'Class C']
+          - name: timestamp
+            description: >
+              The timestamp of the sighting, set to noon the day of.
+            tests:
+              - not_null
+          - name: latitude
+            description: The latitude of the sighting.
+            tests:
+              - not_null
+          - name: longitude
+            description: The longitude of the sighting.
+            tests:
+              - not_null
+          - name: hexid
+            description: >
+              The H3 hexagon id at resolution 10 of the location of the
+              sighting.
+            tests:
+              - not_null
+          - name: extraction_date
+            description: The date the data was extracted from the KML file.

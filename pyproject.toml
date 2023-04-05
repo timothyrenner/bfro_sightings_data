@@ -1,0 +1,14 @@
+[tool.black]
+line-length = 79
+extend-exclude = '''
+/(
+    | .env
+    | environment.yaml
+    | notebooks
+    | data
+    | dvc.lock
+    | dvc.yaml
+    | LICENSE
+    | README.md
+)/
+'''
