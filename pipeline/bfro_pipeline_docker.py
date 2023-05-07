@@ -53,7 +53,7 @@ def main(data_dir: Path = "data", test_run: bool = False):
 
     logger.info("Uploading to gdrive (test).")
     upload_to_gdrive(
-        data_dir / "sources" / "geocoded_reports.csv",
+        data_dir / "processed" / "bfro_reports_geocoded.csv",
         sa_credentials_location=sa_credentials_location,
         gdrive_folder_id=bfro_test_gdrive_folder_id,
         owner_email=bfro_test_editor_email,
@@ -61,7 +61,7 @@ def main(data_dir: Path = "data", test_run: bool = False):
 
     logger.info("Uploading to gdrive (prod).")
     upload_to_gdrive(
-        data_dir / "sources" / "geocoded_reports.csv",
+        data_dir / "processed" / "bfro_reports_geocoded.csv",
         sa_credentials_location=sa_credentials_location,
         gdrive_folder_id=bfro_prod_gdrive_folder_id,
         owner_email=bfro_prod_editor_email,

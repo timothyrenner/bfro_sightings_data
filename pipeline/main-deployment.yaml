@@ -3,13 +3,16 @@
 ###
 name: bfro-pipeline
 description: null
-version: e470842e53ed86da145f75aa0f266db1
+version: 3b3688bb8043cc19d2a2906369f39679
 # The work queue that will handle this deployment's runs
 work_queue_name: default
 work_pool_name: bfro-agent-pool
 tags: []
 parameters: {}
-schedule: null
+schedule:
+  interval: 1209600.0
+  anchor_date: '2023-04-03T12:54:15.962000+00:00'
+  timezone: America/Chicago
 is_schedule_active: true
 infra_overrides: {}
 
@@ -59,4 +62,4 @@ parameter_openapi_schema:
       type: boolean
   required: null
   definitions: null
-timestamp: '2023-04-03T12:43:22.544814+00:00'
+timestamp: '2023-05-07T14:54:37.101511+00:00'

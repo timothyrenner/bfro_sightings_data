@@ -52,15 +52,18 @@ def upload_to_gdrive_task(
         file_id = file_response["id"]
     logger.info("Setting file permissions.")
     for owner_email in owner_emails:
-        permission = {
-            "type": "user",
-            "role": "reader",
-            "emailAddress": owner_email,
-        }
-        google_drive_service.permissions().create(
-            fileId=file_id,
-            body=permission,
-        ).execute()
+        try:
+            permission = {
+                "type": "user",
+                "role": "reader",
+                "emailAddress": owner_email,
+            }
+            google_drive_service.permissions().create(
+                fileId=file_id,
+                body=permission,
+            ).execute()
+        except Exception:
+            logger.exception("Encountered error with sharing.")
 
 
 @flow(name="Save to GDrive")
