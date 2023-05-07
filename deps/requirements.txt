@@ -133,7 +133,9 @@ google-api-core==2.11.0
     #   google-cloud-core
     #   google-cloud-storage
 google-api-python-client==2.83.0
-    # via prefect-gcp
+    # via
+    #   -r deps/requirements.in
+    #   prefect-gcp
 google-auth==2.16.3
     # via
     #   gcsfs
@@ -145,9 +147,13 @@ google-auth==2.16.3
     #   google-cloud-storage
     #   kubernetes
 google-auth-httplib2==0.1.0
-    # via google-api-python-client
+    # via
+    #   -r deps/requirements.in
+    #   google-api-python-client
 google-auth-oauthlib==1.0.0
-    # via gcsfs
+    # via
+    #   -r deps/requirements.in
+    #   gcsfs
 google-cloud-core==2.3.2
     # via google-cloud-storage
 google-cloud-storage==2.8.0
