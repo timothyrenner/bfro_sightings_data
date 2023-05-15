@@ -8,7 +8,7 @@ from pathlib import Path
 
 
 @flow(name="BFRO Pipeline (Docker)")
-def main(data_dir: Path = "data", test_run: bool = False):
+def main(data_dir: Path = Path("data"), test_run: bool = False):
     logger = get_run_logger()
 
     logger.info("Fetching credentials.")
