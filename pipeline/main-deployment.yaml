@@ -3,7 +3,7 @@
 ###
 name: bfro-pipeline
 description: null
-version: 3b3688bb8043cc19d2a2906369f39679
+version: 42854cfbb777416a51819d5b21e78974
 # The work queue that will handle this deployment's runs
 work_queue_name: default
 work_pool_name: bfro-agent-pool
@@ -62,4 +62,4 @@ parameter_openapi_schema:
       type: boolean
   required: null
   definitions: null
-timestamp: '2023-05-07T14:54:37.101511+00:00'
+timestamp: '2023-05-15T22:41:06.394427+00:00'
