@@ -57,6 +57,11 @@ build-deployment:
 apply-deployment:
 	prefect deployment apply pipeline/main-deployment.yaml
 
+.PHONY: pull-data
+## Downloads the data locally for testing
+pull-data:
+	gsutil -m rsync -r gs://trenner-datasets/bigfoot pipeline/data
+
 #################################################################################
 # Self Documenting Commands                                                     #
 #################################################################################

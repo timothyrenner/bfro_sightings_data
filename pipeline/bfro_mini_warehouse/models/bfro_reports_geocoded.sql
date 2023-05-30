@@ -19,7 +19,7 @@ SELECT
     geo.title,
     geo.latitude,
     geo.longitude,
-    COALESCE(reports.date, STRFTIME(geo.timestamp, '%Y-%m-%d')) AS date,
+    COALESCE(STRFTIME(geo.timestamp, '%Y-%m-%d'), reports.date) AS date,
     COALESCE(reports.report_number, geo.number) AS number,
     COALESCE(reports.report_class, geo.classification) AS classification,
     geo.hexid,
