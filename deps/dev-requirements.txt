@@ -16,28 +16,42 @@ aiosignal==1.3.1
     # via
     #   -r deps/requirements.txt
     #   aiohttp
-aiosqlite==0.18.0
+aiosqlite==0.19.0
     # via
     #   -r deps/requirements.txt
     #   prefect
-alembic==1.10.2
+alembic==1.11.1
     # via
     #   -r deps/requirements.txt
     #   prefect
-anyio==3.6.2
+altair==4.2.2
+    # via datapane
+anyio==3.7.0
     # via
     #   -r deps/requirements.txt
     #   httpcore
+    #   jupyter-server
     #   prefect
     #   starlette
-apprise==1.3.0
+apprise==1.4.0
     # via
     #   -r deps/requirements.txt
     #   prefect
-asgi-lifespan==2.0.0
+argon2-cffi==21.3.0
+    # via
+    #   jupyter-server
+    #   nbclassic
+    #   notebook
+argon2-cffi-bindings==21.2.0
+    # via argon2-cffi
+arrow==1.2.3
+    # via isoduration
+asgi-lifespan==2.1.0
     # via
     #   -r deps/requirements.txt
     #   prefect
+asttokens==2.2.1
+    # via stack-data
 async-timeout==4.0.2
     # via
     #   -r deps/requirements.txt
@@ -46,11 +60,12 @@ asyncpg==0.27.0
     # via
     #   -r deps/requirements.txt
     #   prefect
-attrs==22.2.0
+attrs==23.1.0
     # via
     #   -r deps/requirements.txt
     #   aiohttp
     #   automat
+    #   glom
     #   jsonschema
     #   service-identity
     #   twisted
@@ -63,17 +78,26 @@ babel==2.12.1
     # via
     #   -r deps/requirements.txt
     #   agate
-betterproto==1.2.5
-    # via
-    #   -r deps/requirements.txt
-    #   dbt-core
+backcall==0.2.0
+    # via ipython
+backoff==2.2.1
+    # via posthog
+beautifulsoup4==4.12.2
+    # via nbconvert
 black==23.1.0
     # via -r deps/dev-requirements.in
-cachetools==5.3.0
+bleach==6.0.0
+    # via nbconvert
+boltons==21.0.0
+    # via
+    #   datapane
+    #   face
+    #   glom
+cachetools==5.3.1
     # via
     #   -r deps/requirements.txt
     #   google-auth
-certifi==2022.12.7
+certifi==2023.5.7
     # via
     #   -r deps/requirements.txt
     #   apprise
@@ -84,22 +108,30 @@ certifi==2022.12.7
 cffi==1.15.1
     # via
     #   -r deps/requirements.txt
+    #   argon2-cffi-bindings
     #   cryptography
     #   dbt-core
+chardet==5.1.0
+    # via datapane
 charset-normalizer==3.1.0
     # via
     #   -r deps/requirements.txt
     #   aiohttp
     #   requests
+cheroot==9.0.0
+    # via datapane
 click==8.1.3
     # via
     #   -r deps/requirements.txt
     #   apprise
     #   black
+    #   datapane
     #   dbt-core
     #   prefect
     #   typer
     #   uvicorn
+click-spinner==0.1.10
+    # via datapane
 cloudpickle==2.2.1
     # via
     #   -r deps/requirements.txt
@@ -109,6 +141,10 @@ colorama==0.4.6
     #   -r deps/requirements.txt
     #   dbt-core
     #   griffe
+colorlog==6.7.0
+    # via datapane
+comm==0.1.3
+    # via ipykernel
 constantly==15.1.0
     # via
     #   -r deps/requirements.txt
@@ -121,11 +157,11 @@ coolname==2.2.0
     # via
     #   -r deps/requirements.txt
     #   prefect
-croniter==1.3.8
+croniter==1.3.15
     # via
     #   -r deps/requirements.txt
     #   prefect
-cryptography==40.0.1
+cryptography==40.0.2
     # via
     #   -r deps/requirements.txt
     #   prefect
@@ -141,72 +177,110 @@ cycler==0.11.0
     # via
     #   -r deps/requirements.txt
     #   matplotlib
+dacite==1.8.1
+    # via
+    #   -r deps/requirements.txt
+    #   datapane
+    #   ydata-profiling
+datacommons==1.4.3
+    # via datapane
+datacommons-pandas==0.0.3
+    # via datapane
+datapane==0.16.5
+    # via -r deps/dev-requirements.in
 dateparser==1.1.8
     # via
     #   -r deps/requirements.txt
     #   prefect
-dbt-core==1.4.5
+dbt-core==1.5.0
     # via
     #   -r deps/requirements.txt
     #   dbt-duckdb
     #   prefect-dbt
-dbt-duckdb==1.4.1
+dbt-duckdb==1.5.1
     # via -r deps/requirements.txt
 dbt-extractor==0.4.1
     # via
     #   -r deps/requirements.txt
     #   dbt-core
+debugpy==1.6.7
+    # via ipykernel
 decorator==5.1.1
     # via
     #   -r deps/requirements.txt
     #   gcsfs
-docker==6.0.1
+    #   ipython
+defusedxml==0.7.1
+    # via nbconvert
+docker==6.1.2
     # via
     #   -r deps/requirements.txt
     #   prefect
-duckdb==0.7.1
+dominate==2.8.0
+    # via datapane
+duckdb==0.8.0
     # via
     #   -r deps/requirements.txt
     #   dbt-duckdb
-fastapi==0.95.0
+dulwich==0.21.5
+    # via datapane
+entrypoints==0.4
+    # via altair
+exceptiongroup==1.1.1
+    # via
+    #   -r deps/requirements.txt
+    #   anyio
+executing==1.2.0
+    # via stack-data
+face==20.1.1
+    # via glom
+fastapi==0.95.2
     # via
     #   -r deps/requirements.txt
     #   prefect
-filelock==3.10.7
+fastjsonschema==2.17.1
+    # via nbformat
+filelock==3.12.0
     # via
     #   -r deps/requirements.txt
     #   tldextract
-fonttools==4.39.2
+fonttools==4.39.4
     # via
     #   -r deps/requirements.txt
     #   matplotlib
+fqdn==1.5.1
+    # via jsonschema
 frozenlist==1.3.3
     # via
     #   -r deps/requirements.txt
     #   aiohttp
     #   aiosignal
-fsspec==2023.1.0
+fsspec==2023.5.0
     # via
     #   -r deps/requirements.txt
     #   gcsfs
     #   prefect
+furl==2.1.3
+    # via datapane
 future==0.18.3
     # via
     #   -r deps/requirements.txt
     #   parsedatetime
-gcsfs==2023.1.0
+gcsfs==2023.5.0
     # via -r deps/requirements.txt
+glom==23.3.0
+    # via datapane
 google-api-core==2.11.0
     # via
     #   -r deps/requirements.txt
     #   google-api-python-client
     #   google-cloud-core
     #   google-cloud-storage
-google-api-python-client==2.83.0
+google-api-python-client==2.87.0
     # via
     #   -r deps/requirements.txt
     #   prefect-gcp
-google-auth==2.16.3
+google-auth==2.19.0
     # via
     #   -r deps/requirements.txt
     #   gcsfs
@@ -229,7 +303,7 @@ google-cloud-core==2.3.2
     # via
     #   -r deps/requirements.txt
     #   google-cloud-storage
-google-cloud-storage==2.8.0
+google-cloud-storage==2.9.0
     # via
     #   -r deps/requirements.txt
     #   gcsfs
@@ -238,7 +312,7 @@ google-crc32c==1.5.0
     # via
     #   -r deps/requirements.txt
     #   google-resumable-media
-google-resumable-media==2.4.1
+google-resumable-media==2.5.0
     # via
     #   -r deps/requirements.txt
     #   google-cloud-storage
@@ -254,14 +328,10 @@ greenlet==2.0.2
     # via
     #   -r deps/requirements.txt
     #   sqlalchemy
-griffe==0.25.5
+griffe==0.29.0
     # via
     #   -r deps/requirements.txt
     #   prefect
-grpclib==0.4.3
-    # via
-    #   -r deps/requirements.txt
-    #   betterproto
 h11==0.14.0
     # via
     #   -r deps/requirements.txt
@@ -270,11 +340,10 @@ h11==0.14.0
 h2==4.1.0
     # via
     #   -r deps/requirements.txt
-    #   grpclib
     #   httpx
 h3==3.7.6
     # via -r deps/requirements.txt
-hologram==0.0.15
+hologram==0.0.16
     # via
     #   -r deps/requirements.txt
     #   dbt-core
@@ -286,7 +355,7 @@ htmlmin==0.1.12
     # via
     #   -r deps/requirements.txt
     #   ydata-profiling
-httpcore==0.16.3
+httpcore==0.17.2
     # via
     #   -r deps/requirements.txt
     #   httpx
@@ -295,7 +364,7 @@ httplib2==0.22.0
     #   -r deps/requirements.txt
     #   google-api-python-client
     #   google-auth-httplib2
-httpx[http2]==0.23.3
+httpx[http2]==0.24.1
     # via
     #   -r deps/requirements.txt
     #   prefect
@@ -312,9 +381,10 @@ idna==3.4
     #   -r deps/requirements.txt
     #   anyio
     #   dbt-core
+    #   httpx
     #   hyperlink
+    #   jsonschema
     #   requests
-    #   rfc3986
     #   tldextract
     #   yarl
 imagehash==4.3.1
@@ -322,39 +392,81 @@ imagehash==4.3.1
     #   -r deps/requirements.txt
     #   visions
     #   ydata-profiling
-importlib-metadata==6.1.0
+importlib-metadata==6.6.0
     # via
     #   -r deps/requirements.txt
+    #   jupyter-client
     #   markdown
+    #   nbconvert
     #   prefect
+importlib-resources==5.12.0
+    # via
+    #   -r deps/requirements.txt
+    #   datapane
+    #   matplotlib
 incremental==22.10.0
     # via
     #   -r deps/requirements.txt
     #   twisted
+ipykernel==6.23.1
+    # via
+    #   ipynbname
+    #   ipywidgets
+    #   jupyter
+    #   jupyter-console
+    #   nbclassic
+    #   notebook
+    #   qtconsole
+ipynbname==2021.3.2
+    # via datapane
+ipython==8.13.2
+    # via
+    #   ipykernel
+    #   ipywidgets
+    #   jupyter-console
+ipython-genutils==0.2.0
+    # via
+    #   nbclassic
+    #   notebook
+    #   qtconsole
+ipywidgets==8.0.6
+    # via jupyter
 isodate==0.6.1
     # via
     #   -r deps/requirements.txt
     #   agate
     #   dbt-core
-itemadapter==0.7.0
+isoduration==20.11.0
+    # via jsonschema
+itemadapter==0.8.0
     # via
     #   -r deps/requirements.txt
     #   itemloaders
     #   scrapy
-itemloaders==1.0.6
+itemloaders==1.1.0
     # via
     #   -r deps/requirements.txt
     #   scrapy
+jaraco-functools==3.7.0
+    # via cheroot
+jedi==0.18.2
+    # via ipython
 jinja2==3.1.2
     # via
     #   -r deps/requirements.txt
+    #   altair
     #   dbt-core
+    #   jupyter-server
+    #   nbclassic
+    #   nbconvert
+    #   notebook
     #   prefect
     #   ydata-profiling
 jmespath==1.0.1
     # via
     #   -r deps/requirements.txt
     #   itemloaders
+    #   parsel
 joblib==1.2.0
     # via
     #   -r deps/requirements.txt
@@ -367,11 +479,53 @@ jsonpointer==2.3
     # via
     #   -r deps/requirements.txt
     #   jsonpatch
-jsonschema==3.2.0
+    #   jsonschema
+jsonschema[format-nongpl]==4.17.3
     # via
     #   -r deps/requirements.txt
+    #   altair
+    #   datapane
     #   hologram
+    #   jupyter-events
+    #   nbformat
     #   prefect
+jupyter==1.0.0
+    # via -r deps/dev-requirements.in
+jupyter-client==8.2.0
+    # via
+    #   ipykernel
+    #   jupyter-console
+    #   jupyter-server
+    #   nbclassic
+    #   nbclient
+    #   notebook
+    #   qtconsole
+jupyter-console==6.6.3
+    # via jupyter
+jupyter-core==5.3.0
+    # via
+    #   ipykernel
+    #   jupyter-client
+    #   jupyter-console
+    #   jupyter-server
+    #   nbclassic
+    #   nbclient
+    #   nbconvert
+    #   nbformat
+    #   notebook
+    #   qtconsole
+jupyter-events==0.6.3
+    # via jupyter-server
+jupyter-server==2.6.0
+    # via
+    #   nbclassic
+    #   notebook-shim
+jupyter-server-terminals==0.4.4
+    # via jupyter-server
+jupyterlab-pygments==0.2.2
+    # via nbconvert
+jupyterlab-widgets==3.0.7
+    # via ipywidgets
 kiwisolver==1.4.4
     # via
     #   -r deps/requirements.txt
@@ -388,11 +542,12 @@ logbook==1.5.3
     # via
     #   -r deps/requirements.txt
     #   dbt-core
-loguru==0.6.0
+loguru==0.7.0
     # via -r deps/requirements.txt
 lxml==4.9.2
     # via
     #   -r deps/requirements.txt
+    #   datapane
     #   parsel
     #   scrapy
 mako==1.2.4
@@ -412,25 +567,41 @@ markupsafe==2.1.2
     #   -r deps/requirements.txt
     #   jinja2
     #   mako
+    #   nbconvert
     #   werkzeug
-mashumaro[msgpack]==3.3.1
+mashumaro[msgpack]==3.6
     # via
     #   -r deps/requirements.txt
     #   dbt-core
-matplotlib==3.6.3
+matplotlib==3.7.1
     # via
     #   -r deps/requirements.txt
     #   phik
     #   seaborn
+    #   wordcloud
     #   ydata-profiling
+matplotlib-inline==0.1.6
+    # via
+    #   ipykernel
+    #   ipython
 mdurl==0.1.2
     # via
     #   -r deps/requirements.txt
     #   markdown-it-py
+micawber==0.5.4
+    # via datapane
 minimal-snowplow-tracker==0.0.2
     # via
     #   -r deps/requirements.txt
     #   dbt-core
+mistune==2.0.5
+    # via nbconvert
+monotonic==1.6
+    # via posthog
+more-itertools==9.1.0
+    # via
+    #   cheroot
+    #   jaraco-functools
 msgpack==1.0.5
     # via
     #   -r deps/requirements.txt
@@ -439,23 +610,51 @@ multidict==6.0.4
     # via
     #   -r deps/requirements.txt
     #   aiohttp
-    #   grpclib
     #   yarl
 multimethod==1.9.1
     # via
     #   -r deps/requirements.txt
+    #   datapane
     #   visions
     #   ydata-profiling
 mypy-extensions==1.0.0
     # via black
+nbclassic==1.0.0
+    # via notebook
+nbclient==0.8.0
+    # via nbconvert
+nbconvert==7.4.0
+    # via
+    #   datapane
+    #   jupyter
+    #   jupyter-server
+    #   nbclassic
+    #   notebook
+nbformat==5.8.0
+    # via
+    #   jupyter-server
+    #   nbclassic
+    #   nbclient
+    #   nbconvert
+    #   notebook
+nest-asyncio==1.5.6
+    # via
+    #   ipykernel
+    #   nbclassic
+    #   notebook
 networkx==2.8.8
     # via
     #   -r deps/requirements.txt
     #   dbt-core
     #   visions
+notebook==6.5.4
+    # via jupyter
+notebook-shim==0.2.3
+    # via nbclassic
 numpy==1.23.5
     # via
     #   -r deps/requirements.txt
+    #   altair
     #   contourpy
     #   imagehash
     #   matplotlib
@@ -468,44 +667,63 @@ numpy==1.23.5
     #   seaborn
     #   statsmodels
     #   visions
+    #   wordcloud
     #   ydata-profiling
 oauthlib==3.2.2
     # via
     #   -r deps/requirements.txt
     #   requests-oauthlib
-orjson==3.8.8
+orderedmultidict==1.0.1
+    # via furl
+orjson==3.8.14
     # via
     #   -r deps/requirements.txt
     #   prefect
-packaging==23.0
+overrides==7.3.1
+    # via jupyter-server
+packaging==23.1
     # via
     #   -r deps/requirements.txt
     #   black
+    #   datapane
     #   dbt-core
     #   docker
+    #   ipykernel
+    #   jupyter-server
     #   matplotlib
+    #   nbconvert
     #   parsel
     #   prefect
+    #   qtconsole
+    #   qtpy
     #   scrapy
     #   statsmodels
 pandas==1.5.3
     # via
     #   -r deps/requirements.txt
+    #   altair
+    #   datacommons-pandas
+    #   datapane
     #   phik
     #   seaborn
     #   statsmodels
+    #   vega-datasets
     #   visions
     #   ydata-profiling
+pandocfilters==1.5.0
+    # via nbconvert
 parsedatetime==2.4
     # via
     #   -r deps/requirements.txt
     #   agate
-parsel==1.7.0
+parsel==1.8.1
     # via
     #   -r deps/requirements.txt
     #   itemloaders
     #   scrapy
-pathspec==0.10.3
+parso==0.8.3
+    # via jedi
+pathspec==0.11.1
     # via
     #   -r deps/requirements.txt
     #   black
@@ -519,21 +737,30 @@ pendulum==2.1.2
     # via
     #   -r deps/requirements.txt
     #   prefect
+pexpect==4.8.0
+    # via ipython
 phik==0.12.3
     # via
     #   -r deps/requirements.txt
     #   ydata-profiling
-pillow==9.4.0
+pickleshare==0.7.5
+    # via ipython
+pillow==9.5.0
     # via
     #   -r deps/requirements.txt
     #   imagehash
     #   matplotlib
     #   visions
+    #   wordcloud
 platformdirs==3.2.0
-    # via black
-polars[pyarrow]==0.16.16
+    # via
+    #   black
+    #   jupyter-core
+polars[pyarrow]==0.17.15
     # via -r deps/requirements.txt
-prefect==2.8.7
+posthog==2.5.0
+    # via datapane
+prefect==2.10.11
     # via
     #   -r deps/requirements.txt
     #   prefect-dbt
@@ -541,32 +768,51 @@ prefect==2.8.7
     #   prefect-shell
 prefect-dbt==0.3.1
     # via -r deps/requirements.txt
-prefect-gcp[cloud_storage]==0.3.0
+prefect-gcp[cloud_storage]==0.4.2
     # via -r deps/requirements.txt
 prefect-shell==0.1.5
     # via
     #   -r deps/requirements.txt
     #   prefect-dbt
+prometheus-client==0.17.0
+    # via
+    #   jupyter-server
+    #   nbclassic
+    #   notebook
+prompt-toolkit==3.0.38
+    # via
+    #   ipython
+    #   jupyter-console
 protego==0.2.1
     # via
     #   -r deps/requirements.txt
     #   scrapy
-protobuf==4.22.1
+protobuf==4.23.2
     # via
     #   -r deps/requirements.txt
+    #   dbt-core
     #   google-api-core
     #   googleapis-common-protos
-pyarrow==11.0.0
+psutil==5.9.5
+    # via ipykernel
+ptyprocess==0.7.0
+    # via
+    #   pexpect
+    #   terminado
+pure-eval==0.2.2
+    # via stack-data
+pyarrow==10.0.1
     # via
     #   -r deps/requirements.txt
+    #   datapane
     #   polars
-pyasn1==0.4.8
+pyasn1==0.5.0
     # via
     #   -r deps/requirements.txt
     #   pyasn1-modules
     #   rsa
     #   service-identity
-pyasn1-modules==0.2.8
+pyasn1-modules==0.3.0
     # via
     #   -r deps/requirements.txt
     #   google-auth
@@ -575,9 +821,10 @@ pycparser==2.21
     # via
     #   -r deps/requirements.txt
     #   cffi
-pydantic==1.10.7
+pydantic==1.10.8
     # via
     #   -r deps/requirements.txt
+    #   datapane
     #   fastapi
     #   prefect
     #   ydata-profiling
@@ -587,10 +834,16 @@ pydispatcher==2.0.7
     #   scrapy
 pygeohash==1.2.0
     # via -r deps/requirements.txt
-pygments==2.14.0
+pygments==2.15.1
     # via
     #   -r deps/requirements.txt
+    #   ipython
+    #   jupyter-console
+    #   nbconvert
+    #   qtconsole
     #   rich
+pyngrok==5.2.3
+    # via datapane
 pyopenssl==23.1.1
     # via
     #   -r deps/requirements.txt
@@ -610,12 +863,16 @@ python-dateutil==2.8.2
     #   croniter
     #   dateparser
     #   hologram
+    #   jupyter-client
     #   kubernetes
     #   matplotlib
     #   pandas
     #   pendulum
+    #   posthog
 python-dotenv==1.0.0
     # via -r deps/requirements.txt
+python-json-logger==2.0.7
+    # via jupyter-events
 python-slugify==8.0.1
     # via
     #   -r deps/requirements.txt
@@ -625,17 +882,13 @@ pytimeparse==1.1.8
     # via
     #   -r deps/requirements.txt
     #   agate
-pytz==2023.2
+pytz==2023.3
     # via
     #   -r deps/requirements.txt
     #   dateparser
     #   dbt-core
     #   pandas
     #   prefect
-pytz-deprecation-shim==0.1.0.post0
-    # via
-    #   -r deps/requirements.txt
-    #   tzlocal
 pytzdata==2020.1
     # via
     #   -r deps/requirements.txt
@@ -648,10 +901,26 @@ pyyaml==6.0
     # via
     #   -r deps/requirements.txt
     #   apprise
+    #   datapane
     #   dbt-core
+    #   jupyter-events
     #   kubernetes
     #   prefect
+    #   pyngrok
     #   ydata-profiling
+pyzmq==25.1.0
+    # via
+    #   ipykernel
+    #   jupyter-client
+    #   jupyter-console
+    #   jupyter-server
+    #   nbclassic
+    #   notebook
+    #   qtconsole
+qtconsole==5.4.3
+    # via jupyter
+qtpy==2.3.1
+    # via qtconsole
 queuelib==1.6.2
     # via
     #   -r deps/requirements.txt
@@ -660,14 +929,15 @@ readchar==4.0.5
     # via
     #   -r deps/requirements.txt
     #   prefect
-regex==2023.3.23
+regex==2023.5.5
     # via
     #   -r deps/requirements.txt
     #   dateparser
-requests==2.28.2
+requests==2.31.0
     # via
     #   -r deps/requirements.txt
     #   apprise
+    #   datapane
     #   dbt-core
     #   docker
     #   gcsfs
@@ -675,8 +945,10 @@ requests==2.28.2
     #   google-cloud-storage
     #   kubernetes
     #   minimal-snowplow-tracker
+    #   posthog
     #   requests-file
     #   requests-oauthlib
+    #   requests-toolbelt
     #   tldextract
     #   ydata-profiling
 requests-file==1.5.1
@@ -689,11 +961,17 @@ requests-oauthlib==1.3.1
     #   apprise
     #   google-auth-oauthlib
     #   kubernetes
-rfc3986[idna2008]==1.5.0
+requests-toolbelt==1.0.0
+    # via datapane
+rfc3339-validator==0.1.4
     # via
-    #   -r deps/requirements.txt
-    #   httpx
-rich==13.3.3
+    #   jsonschema
+    #   jupyter-events
+rfc3986-validator==0.1.1
+    # via
+    #   jsonschema
+    #   jupyter-events
+rich==13.3.5
     # via
     #   -r deps/requirements.txt
     #   prefect
@@ -703,19 +981,24 @@ rsa==4.9
     #   google-auth
 ruff==0.0.259
     # via -r deps/dev-requirements.in
-scipy==1.9.3
+scipy==1.10.1
     # via
     #   -r deps/requirements.txt
     #   imagehash
     #   phik
     #   statsmodels
     #   ydata-profiling
-scrapy==2.8.0
+scrapy==2.9.0
     # via -r deps/requirements.txt
 seaborn==0.12.2
     # via
     #   -r deps/requirements.txt
     #   ydata-profiling
+send2trash==1.8.2
+    # via
+    #   jupyter-server
+    #   nbclassic
+    #   notebook
 service-identity==21.1.0
     # via
     #   -r deps/requirements.txt
@@ -727,18 +1010,26 @@ sgqlc==16.1
 six==1.16.0
     # via
     #   -r deps/requirements.txt
+    #   asttokens
     #   automat
+    #   bleach
+    #   cheroot
+    #   datacommons
+    #   datacommons-pandas
+    #   furl
     #   google-auth
     #   google-auth-httplib2
     #   isodate
-    #   jsonschema
     #   kubernetes
     #   leather
     #   minimal-snowplow-tracker
+    #   orderedmultidict
     #   patsy
+    #   posthog
     #   protego
     #   python-dateutil
     #   requests-file
+    #   rfc3339-validator
     #   service-identity
 sniffio==1.3.0
     # via
@@ -747,7 +1038,9 @@ sniffio==1.3.0
     #   asgi-lifespan
     #   httpcore
     #   httpx
-sqlalchemy[asyncio]==1.4.47
+soupsieve==2.4.1
+    # via beautifulsoup4
+sqlalchemy[asyncio]==2.0.15
     # via
     #   -r deps/requirements.txt
     #   alembic
@@ -756,27 +1049,35 @@ sqlparse==0.4.3
     # via
     #   -r deps/requirements.txt
     #   dbt-core
-starlette==0.26.1
+stack-data==0.6.2
+    # via ipython
+starlette==0.27.0
     # via
     #   -r deps/requirements.txt
     #   fastapi
-statsmodels==0.13.5
+statsmodels==0.14.0
     # via
     #   -r deps/requirements.txt
     #   ydata-profiling
-stringcase==1.2.0
-    # via
-    #   -r deps/requirements.txt
-    #   betterproto
+tabulate==0.9.0
+    # via datapane
 tangled-up-in-unicode==0.2.0
     # via
     #   -r deps/requirements.txt
     #   visions
+terminado==0.17.1
+    # via
+    #   jupyter-server
+    #   jupyter-server-terminals
+    #   nbclassic
+    #   notebook
 text-unidecode==1.3
     # via
     #   -r deps/requirements.txt
     #   python-slugify
-tldextract==3.4.0
+tinycss2==1.2.1
+    # via nbconvert
+tldextract==3.4.4
     # via
     #   -r deps/requirements.txt
     #   scrapy
@@ -787,11 +1088,40 @@ toml==0.10.2
 tomli==2.0.1
     # via black
 toolz==0.12.0
-    # via -r deps/requirements.txt
-tqdm==4.64.1
+    # via
+    #   -r deps/requirements.txt
+    #   altair
+    #   datapane
+tornado==6.3.2
+    # via
+    #   ipykernel
+    #   jupyter-client
+    #   jupyter-server
+    #   nbclassic
+    #   notebook
+    #   terminado
+tqdm==4.65.0
     # via
     #   -r deps/requirements.txt
     #   ydata-profiling
+traitlets==5.9.0
+    # via
+    #   comm
+    #   ipykernel
+    #   ipython
+    #   ipywidgets
+    #   jupyter-client
+    #   jupyter-console
+    #   jupyter-core
+    #   jupyter-events
+    #   jupyter-server
+    #   matplotlib-inline
+    #   nbclassic
+    #   nbclient
+    #   nbconvert
+    #   nbformat
+    #   notebook
+    #   qtconsole
 twisted==22.10.0
     # via
     #   -r deps/requirements.txt
@@ -800,44 +1130,49 @@ typeguard==2.13.3
     # via
     #   -r deps/requirements.txt
     #   ydata-profiling
-typer==0.7.0
+typer==0.9.0
     # via
     #   -r deps/requirements.txt
     #   prefect
-typing-extensions==4.5.0
+typing-extensions==4.6.2
     # via
     #   -r deps/requirements.txt
     #   alembic
     #   black
+    #   datapane
     #   dbt-core
+    #   ipython
     #   mashumaro
-    #   polars
     #   prefect
     #   pydantic
+    #   sqlalchemy
     #   starlette
     #   twisted
-tzdata==2023.2
-    # via
-    #   -r deps/requirements.txt
-    #   pytz-deprecation-shim
-tzlocal==4.3
+    #   typer
+tzlocal==5.0.1
     # via
     #   -r deps/requirements.txt
     #   dateparser
+uri-template==1.2.0
+    # via jsonschema
 uritemplate==4.1.1
     # via
     #   -r deps/requirements.txt
     #   google-api-python-client
-urllib3==1.26.15
+urllib3==1.26.16
     # via
     #   -r deps/requirements.txt
     #   docker
+    #   dulwich
+    #   google-auth
     #   kubernetes
     #   requests
-uvicorn==0.21.1
+uvicorn==0.22.0
     # via
     #   -r deps/requirements.txt
     #   prefect
+vega-datasets==0.9.0
+    # via datapane
 visions[type_image_path]==0.7.5
     # via
     #   -r deps/requirements.txt
@@ -848,29 +1183,45 @@ w3lib==2.1.1
     #   itemloaders
     #   parsel
     #   scrapy
-websocket-client==1.5.1
+wcwidth==0.2.6
+    # via prompt-toolkit
+webcolors==1.13
+    # via jsonschema
+webencodings==0.5.1
+    # via
+    #   bleach
+    #   tinycss2
+websocket-client==1.5.2
     # via
     #   -r deps/requirements.txt
     #   docker
+    #   jupyter-server
     #   kubernetes
-websockets==10.4
+websockets==11.0.3
     # via
     #   -r deps/requirements.txt
     #   prefect
-werkzeug==2.2.3
+werkzeug==2.3.4
     # via
     #   -r deps/requirements.txt
     #   dbt-core
-yarl==1.8.2
+widgetsnbextension==4.0.7
+    # via ipywidgets
+wordcloud==1.9.2
+    # via
+    #   -r deps/requirements.txt
+    #   ydata-profiling
+yarl==1.9.2
     # via
     #   -r deps/requirements.txt
     #   aiohttp
-ydata-profiling==4.1.2
+ydata-profiling==4.2.0
     # via -r deps/requirements.txt
 zipp==3.15.0
     # via
     #   -r deps/requirements.txt
     #   importlib-metadata
+    #   importlib-resources
 zope-interface==6.0
     # via
     #   -r deps/requirements.txt

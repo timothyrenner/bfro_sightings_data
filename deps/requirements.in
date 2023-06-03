@@ -14,7 +14,10 @@ ydata-profiling
 
 duckdb
 polars[pyarrow]
-prefect==2.8.7
+prefect~=2.10
+datapane
+altair
+vega-datasets
 prefect-shell
 prefect-dbt
 prefect-gcp[cloud_storage]
