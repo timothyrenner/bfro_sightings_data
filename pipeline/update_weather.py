@@ -21,10 +21,14 @@ def get_missing_weather_keys_task(
 @task(name="Pull missing weather data")
 def pull_weather_data(
     missing_weather_keys: pl.DataFrame,
+    visual_crossing_key: str,
     limit: int = 900,
 ) -> Tuple[pl.DataFrame, bool]:
     return pull_missing_weather(
-        missing_weather_keys, limit=limit, logger=get_run_logger()
+        missing_weather_keys,
+        visual_crossing_key,
+        limit=limit,
+        logger=get_run_logger(),
     )
 
 
@@ -73,7 +77,7 @@ def update_weather(
     logger.info(f"Total missing weather keys: {missing_weather_keys.shape[0]}")
     logger.info(f"Pulling {min(missing_weather_keys.shape[0], limit)}.")
     new_weather_data, weather_limit_reached = pull_weather_data(
-        missing_weather_keys, limit=limit
+        missing_weather_keys, visual_crossing_key, limit=limit
     )
     logger.info(f"Pulled {new_weather_data.shape[0]} new weather records.")
     if not weather_cache_file.exists():
