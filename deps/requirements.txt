@@ -14,7 +14,7 @@ aiosqlite==0.18.0
     # via prefect
 alembic==1.10.2
     # via prefect
-anyio==3.6.2
+anyio==3.7.1
     # via
     #   httpcore
     #   prefect
@@ -103,14 +103,18 @@ dbt-extractor==0.4.1
     # via dbt-core
 decorator==5.1.1
     # via gcsfs
+dnspython==2.4.2
+    # via email-validator
 docker==6.0.1
     # via prefect
 duckdb==0.7.1
     # via
     #   -r deps/requirements.in
     #   dbt-duckdb
-fastapi==0.95.0
-    # via prefect
+email-validator==2.1.0.post1
+    # via pydantic
+exceptiongroup==1.1.3
+    # via anyio
 filelock==3.10.7
     # via tldextract
 fonttools==4.39.2
@@ -168,6 +172,8 @@ googleapis-common-protos==1.59.0
     # via google-api-core
 graphql-core==3.2.3
     # via sgqlc
+graphviz==0.20.1
+    # via prefect
 greenlet==2.0.2
     # via sqlalchemy
 griffe==0.25.5
@@ -191,7 +197,9 @@ hpack==4.0.0
 htmlmin==0.1.12
     # via ydata-profiling
 httpcore==0.16.3
-    # via httpx
+    # via
+    #   httpx
+    #   prefect
 httplib2==0.22.0
     # via
     #   google-api-python-client
@@ -206,6 +214,7 @@ idna==3.4
     # via
     #   anyio
     #   dbt-core
+    #   email-validator
     #   hyperlink
     #   requests
     #   rfc3986
@@ -358,7 +367,7 @@ pillow==9.4.0
     #   visions
 polars[pyarrow]==0.16.16
     # via -r deps/requirements.in
-prefect==2.8.7
+prefect==2.14.2
     # via
     #   -r deps/requirements.in
     #   prefect-dbt
@@ -391,9 +400,8 @@ pyasn1-modules==0.2.8
     #   service-identity
 pycparser==2.21
     # via cffi
-pydantic==1.10.7
+pydantic[email]==1.10.7
     # via
-    #   fastapi
     #   prefect
     #   ydata-profiling
 pydispatcher==2.0.7
@@ -419,6 +427,7 @@ python-dateutil==2.8.2
     #   matplotlib
     #   pandas
     #   pendulum
+    #   prefect
 python-dotenv==1.0.0
     # via -r deps/requirements.in
 python-slugify==8.0.1
@@ -479,6 +488,10 @@ rich==13.3.3
     # via prefect
 rsa==4.9
     # via google-auth
+ruamel-yaml==0.17.35
+    # via prefect
+ruamel-yaml-clib==0.2.8
+    # via ruamel-yaml
 scipy==1.9.3
     # via
     #   imagehash
@@ -514,14 +527,15 @@ sniffio==1.3.0
     #   asgi-lifespan
     #   httpcore
     #   httpx
+    #   prefect
 sqlalchemy[asyncio]==1.4.47
     # via
     #   alembic
     #   prefect
 sqlparse==0.4.3
     # via dbt-core
-starlette==0.26.1
-    # via fastapi
+starlette==0.27.0
+    # via prefect
 statsmodels==0.13.5
     # via ydata-profiling
 stringcase==1.2.0
@@ -560,6 +574,8 @@ tzdata==2023.2
     # via pytz-deprecation-shim
 tzlocal==4.3
     # via dateparser
+ujson==5.8.0
+    # via prefect
 uritemplate==4.1.1
     # via google-api-python-client
 urllib3==1.26.15

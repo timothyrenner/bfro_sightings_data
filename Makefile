@@ -9,11 +9,11 @@ deps/dev-requirements.txt: deps/dev-requirements.in deps/requirements.txt
 	pip-compile deps/dev-requirements.in --output-file deps/dev-requirements.txt
 
 ## Install non-dev dependencies.
-env:
+env: deps/requirements.txt
 	pip-sync deps/requirements.txt
 
 ## Install dev and non-dev dependencies.
-dev-env:
+dev-env: deps/dev-requirements.txt
 	pip-sync deps/dev-requirements.txt
 
 ## Lint project with ruff.
