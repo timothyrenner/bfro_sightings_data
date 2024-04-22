@@ -13,4 +13,6 @@ logs
 data_old
 test.csv
 data_backup
-
+service-account.json
+gdrive-service-account.json
+run-docker.sh
