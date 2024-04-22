@@ -18,17 +18,11 @@ dev-env: deps/dev-requirements.txt
 
 ## Lint project with ruff.
 lint:
-	python -m ruff .
+	python -m ruff check .
 
 ## Format imports and code.
 format:
-	python -m ruff . --fix
-	python -m black .
-
-## Check linting and formatting.
-check:
-	python -m ruff check .
-	python -m black --check .
+	python -m ruff format .
 
 .PHONY: build-docker
 ## Build docker with local registry tag
@@ -39,23 +33,6 @@ build-docker:
 ## Push docker to local registry
 push-docker:
 	docker push localhost:5000/bfro_pipeline:latest
-
-.PHONY: build-deployment
-## Builds the Prefect deployment yaml file.
-build-deployment:
-	cd pipeline && \
-	prefect deployment build \
-		bfro_pipeline_docker:main \
-		--name bfro-pipeline \
-		--pool bfro-agent-pool \
-		--work-queue default \
-		--infra-block process/bfro-local \
-		--storage-block gcs/bfro-pipeline-storage
-
-.PHONY: apply-deployment
-## Sends the Prefect deployment file to the server.
-apply-deployment:
-	prefect deployment apply pipeline/main-deployment.yaml
 
 .PHONY: pull-data
 ## Downloads the data locally for testing
