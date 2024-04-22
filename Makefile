@@ -2,19 +2,19 @@
 
 ## Compile requirements.in into requirements.txt
 deps/requirements.txt: deps/requirements.in
-	pip-compile deps/requirements.in --output-file deps/requirements.txt
+	uv pip compile deps/requirements.in --output-file deps/requirements.txt
 
 ## Compile dev-requirements.in into dev-requirements.txt
 deps/dev-requirements.txt: deps/dev-requirements.in deps/requirements.txt
-	pip-compile deps/dev-requirements.in --output-file deps/dev-requirements.txt
+	uv pip compile deps/dev-requirements.in --output-file deps/dev-requirements.txt
 
 ## Install non-dev dependencies.
 env: deps/requirements.txt
-	pip-sync deps/requirements.txt
+	uv pip sync deps/requirements.txt
 
 ## Install dev and non-dev dependencies.
 dev-env: deps/dev-requirements.txt
-	pip-sync deps/dev-requirements.txt
+	uv pip sync deps/dev-requirements.txt
 
 ## Lint project with ruff.
 lint:

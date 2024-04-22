@@ -3,6 +3,6 @@ channels:
   - defaults
 dependencies:
   - pip
-  - python=3.9
+  - python=3.11
   - pip:
-    - pip-tools
+    - uv
