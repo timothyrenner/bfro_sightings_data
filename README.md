@@ -18,7 +18,7 @@ To get started, run the following commands to set up the environment.
 
 ```shell
 conda env create -f environment.yaml
-conda activate bfro
+conda activate bfro-sightings-data
 make dev-env
 ```
 
