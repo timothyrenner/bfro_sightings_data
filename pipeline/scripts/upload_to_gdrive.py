@@ -76,9 +76,11 @@ def main(
             "retrieving from env."
         )
         load_dotenv(find_dotenv())
-        sa_credentials_location = os.getenv("SA_CREDENTIALS_LOCATION")
+        sa_credentials_location = os.getenv("GDRIVE_SERVICE_ACCOUNT_LOCATION")
         if sa_credentials_location is None:
-            raise ValueError("SA_CREDENTIALS_LOCATION not in .env or env.")
+            raise ValueError(
+                "GDRIVE_SERVICE_ACCOUNT_LOCATION not in .env or env."
+            )
 
     if gdrive_folder_id is None:
         logger.info("GDrive folder ID not passed, retrieving from env.")
