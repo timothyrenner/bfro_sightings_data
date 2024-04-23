@@ -6,10 +6,11 @@ scrapy>=2,<3
 toolz
 loguru
 ydata-profiling
-duckdb
+duckdb~=0.10
 polars[pyarrow]
 h3<4.0
-dbt-duckdb
+dbt-core~=1.7
+dbt-duckdb~=1.7
 google-api-python-client
 google-auth-httplib2
 google-auth-oauthlib
