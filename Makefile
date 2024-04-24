@@ -25,13 +25,9 @@ format:
 	python -m ruff format .
 
 .PHONY: build-docker
-## Build docker with local registry tag
+## Build docker with local registry tag and push to local registry
 build-docker:
 	docker build --tag localhost:5000/bfro_pipeline:latest .
-
-.PHONY: push-docker
-## Push docker to local registry
-push-docker:
 	docker push localhost:5000/bfro_pipeline:latest
 
 .PHONY: pull-data
