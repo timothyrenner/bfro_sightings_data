@@ -1,5 +1,4 @@
 import typer
-from prefect import flow, task, get_run_logger
 from pathlib import Path
 from typing import Optional, List
 from googleapiclient import discovery
@@ -7,16 +6,15 @@ from googleapiclient.http import MediaFileUpload
 from google.oauth2 import service_account
 import os
 from dotenv import load_dotenv, find_dotenv
+from loguru import logger
 
 
-@task(name="Upload")
-def upload_to_gdrive_task(
+def upload_to_gdrive(
     google_drive_service,
     file: Path,
     destination_folder_id: str,
     owner_emails: List[str] = [],
 ):
-    logger = get_run_logger()
     logger.info("Determining if file exists.")
     file_id: Optional[str] = None
     file_search_response = (
@@ -66,23 +64,23 @@ def upload_to_gdrive_task(
             logger.exception("Encountered error with sharing.")
 
 
-@flow(name="Save to GDrive")
-def upload_to_gdrive(
+def main(
     file: Path,
     sa_credentials_location: Optional[str] = None,
     gdrive_folder_id: Optional[str] = None,
     owner_email: Optional[str] = None,
 ):
-    logger = get_run_logger()
     if sa_credentials_location is None:
         logger.info(
             "Service account credentials location not passed, "
             "retrieving from env."
         )
         load_dotenv(find_dotenv())
-        sa_credentials_location = os.getenv("SA_CREDENTIALS_LOCATION")
+        sa_credentials_location = os.getenv("GDRIVE_SERVICE_ACCOUNT_LOCATION")
         if sa_credentials_location is None:
-            raise ValueError("SA_CREDENTIALS_LOCATION not in .env or env.")
+            raise ValueError(
+                "GDRIVE_SERVICE_ACCOUNT_LOCATION not in .env or env."
+            )
 
     if gdrive_folder_id is None:
         logger.info("GDrive folder ID not passed, retrieving from env.")
@@ -110,10 +108,11 @@ def upload_to_gdrive(
     )
 
     logger.info("Performing upload task.")
-    upload_to_gdrive_task(
+    upload_to_gdrive(
         google_drive_service, file, gdrive_folder_id, [owner_email]
     )
+    logger.info("Done!")
 
 
 if __name__ == "__main__":
-    typer.run(upload_to_gdrive)
+    typer.run(main)

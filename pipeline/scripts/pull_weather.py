@@ -130,6 +130,9 @@ def merge_new_records_with_weather_cache(
 def main(
     weather_cache_file: Path, geocoded_reports_file: Path, limit: int = 900
 ):
+    logger.info(f"weather_cache_file: {weather_cache_file.name}")
+    logger.info(f"geocoded_reports_file: {geocoded_reports_file.name}")
+    logger.info(f"limit: {limit}")
     visual_crossing_key = get_visual_crossing_key_from_env()
     logger.info(f"Getting missing weather keys from {geocoded_reports_file}.")
     missing_weather_keys = get_missing_weather_keys(

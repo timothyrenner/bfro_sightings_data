@@ -13,12 +13,12 @@ jobs:
       - name: Set up python
         uses: actions/setup-python@v2
         with:
-          python-version: "3.9"
+          python-version: "3.11"
       
       - name: Install dependencies
         run: pip install -r deps/dev-requirements.txt
       
       - name: Run checks
-        run: make check
+        run: make lint
 
       # uhhhh no tests for now I guess

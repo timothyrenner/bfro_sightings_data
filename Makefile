@@ -2,60 +2,33 @@
 
 ## Compile requirements.in into requirements.txt
 deps/requirements.txt: deps/requirements.in
-	pip-compile deps/requirements.in --output-file deps/requirements.txt
+	uv pip compile deps/requirements.in --output-file deps/requirements.txt
 
 ## Compile dev-requirements.in into dev-requirements.txt
 deps/dev-requirements.txt: deps/dev-requirements.in deps/requirements.txt
-	pip-compile deps/dev-requirements.in --output-file deps/dev-requirements.txt
+	uv pip compile deps/dev-requirements.in --output-file deps/dev-requirements.txt
 
 ## Install non-dev dependencies.
 env: deps/requirements.txt
-	pip-sync deps/requirements.txt
+	uv pip sync deps/requirements.txt
 
 ## Install dev and non-dev dependencies.
 dev-env: deps/dev-requirements.txt
-	pip-sync deps/dev-requirements.txt
+	uv pip sync deps/dev-requirements.txt
 
 ## Lint project with ruff.
 lint:
-	python -m ruff .
+	python -m ruff check .
 
 ## Format imports and code.
 format:
-	python -m ruff . --fix
-	python -m black .
-
-## Check linting and formatting.
-check:
-	python -m ruff check .
-	python -m black --check .
+	python -m ruff format .
 
 .PHONY: build-docker
-## Build docker with local registry tag
+## Build docker with local registry tag and push to local registry
 build-docker:
 	docker build --tag localhost:5000/bfro_pipeline:latest .
-
-.PHONY: push-docker
-## Push docker to local registry
-push-docker:
 	docker push localhost:5000/bfro_pipeline:latest
-
-.PHONY: build-deployment
-## Builds the Prefect deployment yaml file.
-build-deployment:
-	cd pipeline && \
-	prefect deployment build \
-		bfro_pipeline_docker:main \
-		--name bfro-pipeline \
-		--pool bfro-agent-pool \
-		--work-queue default \
-		--infra-block process/bfro-local \
-		--storage-block gcs/bfro-pipeline-storage
-
-.PHONY: apply-deployment
-## Sends the Prefect deployment file to the server.
-apply-deployment:
-	prefect deployment apply pipeline/main-deployment.yaml
 
 .PHONY: pull-data
 ## Downloads the data locally for testing

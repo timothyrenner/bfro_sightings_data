@@ -18,7 +18,7 @@ To get started, run the following commands to set up the environment.
 
 ```shell
 conda env create -f environment.yaml
-conda activate bfro
+conda activate bfro-sightings-data
 make dev-env
 ```
 
@@ -33,38 +33,23 @@ For more information on the weather data, see the [Visual Crossing documentation
 ## Full Pipeline
 
 The pipeline (including scraper, weather, and the DBT project), is in the `pipeline/` directory.
-Everything assumes relative paths from that directory, rather than the project root (which is just for setup and deployment operations).
+However, there's a shell script that will run it all for you.
 
-```
-cd pipeline/
-python bfro_pipeline.py
-```
-
-For a test run (which runs the scraper on a small set of pages, and pulls a small set of weather data), use `--test-run`.
-
-```
-python bfro_pipeline.py --test-run
+```sh
+# In project root.
+./run-pipeline-local.sh False
 ```
 
-Once the sources are in place (however you decide to run them), you can run dbt directly from within the `pipeline/bfro_mini_warehouse` directory, or use the script.
+To run a test run, use
 
+```sh
+./run-pipeline-local.sh True
 ```
-python bfro_pipeline.py --dbt-only
-```
-
-The pipeline command runs the source tests first, builds the csv files, then runs the rest of the data tests.
 
 ## Deployment and Orchestration
 
-The pipelines are [Prefect](https://www.prefect.io/) flows, and they can be deployed but require some setup.
-The `pipeline/bfro_pipeline_docker.py` file has the blocks you need (basically `prefect-gcs-rw` as GCP credentials, and `visual-crossing-key` as a Secret).
-I assume if you're messing with deployments you probably know how that stuff works.
-It's not _super_ hard to self host Prefect, but it's not super easy either.
-
-Also worth noting - while the thing says `_docker` in the file name and pipeline name, I don't actually have the dockerized version working yet 😬 .
-
-It will still deploy and run, as is, with a process infrastructure block on an agent within the conda env provided in this repo though.
-When I get docker working, you'll be able to launch it with a docker container infrastructure block and no code change to the flow.
+There's a Dockerfile and docker make targets (set to push to a local registry).
+If you want to run in a container you should wrap the `run-pipeline-local.sh` shell script into one that will pull down / push updated data before the container tears down, or execute with a bind mount or volume mount on the local project root.
 
 ## Data Dictionary
 
