@@ -45,10 +45,10 @@ class BfroReportSpider(scrapy.Spider):
         raw_keys = response.xpath("//p/span[@class='field']/text()").extract()
         keys = [k.replace(":", "").replace(" ", "_") for k in raw_keys]
 
-        # Now if scrapy had XPath 2.0 this would be pretty simple. Unfortunately
-        # it doesn't so we need to use a mixture of Python and XPath. This
-        # XPath query grabs all "p" elements containing a 'span.field' with
-        # text matching the key.
+        # Now if scrapy had XPath 2.0 this would be pretty simple.
+        # Unfortunately it doesn't so we need to use a mixture of Python and
+        # XPath. This XPath query grabs all "p" elements containing a
+        # 'span.field' with text matching the key.
         value_query = (
             "//p[span[@class = 'field' and contains(text(), '{}')]]/text()"
         )
@@ -83,9 +83,10 @@ class BfroReportSpider(scrapy.Spider):
 
         for k in empty_keys:
             data[k] = response.xpath(
-                "//p[span[@class='field' and contains(text(), '{}')]]/a/text()".format(
-                    k
-                )
+                (
+                    "//p[span[@class='field' and "
+                    "contains(text(), '{}')]]/a/text()"
+                ).format(k)
             ).extract_first()
 
         # If everything is None, we don't want to write the values out,

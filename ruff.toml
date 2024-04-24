@@ -1,1 +1,4 @@
 line-length = 79
+exclude=[
+    "pipeline/scraper/bfro_scrape/settings.py"
+]

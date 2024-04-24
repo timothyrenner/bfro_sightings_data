@@ -2,7 +2,6 @@ import typer
 from pathlib import Path
 from loguru import logger
 import duckdb
-import polars as pl
 
 
 def main(
